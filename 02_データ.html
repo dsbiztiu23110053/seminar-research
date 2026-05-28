@@ -75,10 +75,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "サーチ"
   }
 }</script>
-<meta name="mermaid-theme" content="default">
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
@@ -170,11 +166,12 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#データの出典" id="toc-データの出典" class="nav-link active" data-scroll-target="#データの出典"><span class="header-section-number">2.1</span> データの出典</a></li>
   <li><a href="#データの準備" id="toc-データの準備" class="nav-link" data-scroll-target="#データの準備"><span class="header-section-number">2.2</span> データの準備</a></li>
   <li><a href="#データ概要" id="toc-データ概要" class="nav-link" data-scroll-target="#データ概要"><span class="header-section-number">2.3</span> データ概要</a></li>
-  <li><a href="#基本統計量" id="toc-基本統計量" class="nav-link" data-scroll-target="#基本統計量"><span class="header-section-number">2.4</span> 基本統計量</a></li>
-  <li><a href="#時系列の可視化" id="toc-時系列の可視化" class="nav-link" data-scroll-target="#時系列の可視化"><span class="header-section-number">2.5</span> 時系列の可視化</a></li>
-  <li><a href="#気象データとの関係" id="toc-気象データとの関係" class="nav-link" data-scroll-target="#気象データとの関係"><span class="header-section-number">2.6</span> 気象データとの関係</a></li>
-  <li><a href="#曜日時間帯パターン" id="toc-曜日時間帯パターン" class="nav-link" data-scroll-target="#曜日時間帯パターン"><span class="header-section-number">2.7</span> 曜日・時間帯パターン</a></li>
-  <li><a href="#前処理パイプライン" id="toc-前処理パイプライン" class="nav-link" data-scroll-target="#前処理パイプライン"><span class="header-section-number">2.8</span> 前処理パイプライン</a></li>
+  <li><a href="#変数一覧" id="toc-変数一覧" class="nav-link" data-scroll-target="#変数一覧"><span class="header-section-number">2.4</span> 変数一覧</a></li>
+  <li><a href="#基本統計量" id="toc-基本統計量" class="nav-link" data-scroll-target="#基本統計量"><span class="header-section-number">2.5</span> 基本統計量</a></li>
+  <li><a href="#運営期間の分布" id="toc-運営期間の分布" class="nav-link" data-scroll-target="#運営期間の分布"><span class="header-section-number">2.6</span> 運営期間の分布</a></li>
+  <li><a href="#ジャンル別運営期間" id="toc-ジャンル別運営期間" class="nav-link" data-scroll-target="#ジャンル別運営期間"><span class="header-section-number">2.7</span> ジャンル別運営期間</a></li>
+  <li><a href="#企業別ゲーム本数" id="toc-企業別ゲーム本数" class="nav-link" data-scroll-target="#企業別ゲーム本数"><span class="header-section-number">2.8</span> 企業別ゲーム本数</a></li>
+  <li><a href="#ジャンル別割合" id="toc-ジャンル別割合" class="nav-link" data-scroll-target="#ジャンル別割合"><span class="header-section-number">2.9</span> ジャンル別割合</a></li>
   </ul>
 </nav>
     </div>
@@ -210,22 +207,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>何を書くか：</strong> 分析に使用するデータの全体像を示す章です。データの出典・構造・基本統計量・可視化を通じて、読者がデータを十分に理解できるようにします。</p>
-<p><strong>書き方のコツ：</strong></p>
-<ul>
-<li><strong>データ概要</strong> では、取得元・期間・サンプル数・変数の一覧を明示します</li>
-<li><strong>基本統計量</strong> は表形式で整理し、データの分布を把握できるようにします</li>
-<li><strong>可視化</strong> は目的を明確にして（例：「時系列の傾向を確認する」）、図にキャプションと番号を付けます</li>
-<li>前処理の手順はフロー図で示すと理解しやすくなります</li>
-</ul>
-<p><strong>Quartoの機能：</strong></p>
-<ul>
-<li>R コードブロック <code>```{r}</code> でデータ処理と可視化を実行できます</li>
-<li><code>#| label: fig-xxx</code> と <code>#| fig-cap:</code> で図番号とキャプションを自動付与します</li>
-<li><code>@fig-xxx</code> で本文中からクロスリファレンスできます</li>
-<li><code>::: {.panel-tabset}</code> でタブ切替パネルを作成できます</li>
-<li>Mermaid 記法でフロー図を描けます</li>
-</ul>
+<p>本章では、分析に使用するスマホゲームデータの概要、基本統計量、および可視化を行う。<br>
+サービス終了したスマホゲームの特徴を把握するため、企業・ジャンル・課金方式・運営期間などの観点から分析を実施する。</p>
 </div>
 </div>
 <section id="データの出典" class="level2" data-number="2.1">
@@ -237,10 +220,6 @@ ul.task-list li input[type="checkbox"] {
 </figcaption>
 <div aria-describedby="tbl-data-source-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>項目</th>
@@ -250,17 +229,21 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>利用データ</td>
-<td>東京都シェアサイクル事業オープンデータ（※実際の出典に置き換えてください）</td>
+<td>サービス終了したスマホゲーム一覧データ</td>
 </tr>
 <tr class="even">
-<td>気象データ</td>
-<td>気象庁 過去の気象データ検索（※実際の出典に置き換えてください）</td>
+<td>内容</td>
+<td>ゲームタイトル、企業、ジャンル、課金方式、リリース日、終了日</td>
 </tr>
 <tr class="odd">
-<td>取得日</td>
-<td>2025年○月○日</td>
+<td>対象地域</td>
+<td>日本国内</td>
 </tr>
 <tr class="even">
+<td>対象期間</td>
+<td>2014年〜2020年</td>
+</tr>
+<tr class="odd">
 <td>前処理スクリプト</td>
 <td><code>src/generate_data.R</code></td>
 </tr>
@@ -272,14 +255,16 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="データの準備" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="データの準備"><span class="header-section-number">2.2</span> データの準備</h2>
+<hr>
 </section>
 <section id="データ概要" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="データ概要"><span class="header-section-number">2.3</span> データ概要</h2>
-<p>本研究では、東京都内のシェアサイクル利用数と気象データを組み合わせた合成データセットを使用する。</p>
+<p>本研究では、サービス終了したスマホゲームのデータセットを使用する。<br>
+ゲームごとの企業、ジャンル、課金方式、運営期間などを用いて分析を行う。</p>
 <div id="tbl-data-overview" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-表&nbsp;2.2: データセットの概要
+表&nbsp;2.2: データセット概要
 </figcaption>
 <div aria-describedby="tbl-data-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -291,32 +276,37 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>対象期間</td>
-<td>2024年1月1日 〜 2024年12月31日（365日間）</td>
+<td>分析対象</td>
+<td>サービス終了したスマホゲーム</td>
 </tr>
 <tr class="even">
-<td>時間粒度</td>
-<td>1時間単位</td>
+<td>レコード数</td>
+<td>966 件</td>
 </tr>
 <tr class="odd">
-<td>レコード数</td>
-<td>8,760件（365日 × 24時間）</td>
+<td>企業数</td>
+<td>650 社</td>
+</tr>
+<tr class="even">
+<td>ジャンル数</td>
+<td>8 種類</td>
+</tr>
+<tr class="odd">
+<td>主な説明変数</td>
+<td>企業、ジャンル、課金方式、プラットフォーム</td>
 </tr>
 <tr class="even">
 <td>目的変数</td>
-<td>1時間あたりの利用数（count）</td>
-</tr>
-<tr class="odd">
-<td>説明変数</td>
-<td>気温、湿度、風速、降雨有無、曜日、時間帯</td>
+<td>運営期間（service_months）</td>
 </tr>
 </tbody>
 </table>
 </div>
 </figure>
 </div>
-<section id="変数一覧" class="level3">
-<h3 class="anchored" data-anchor-id="変数一覧">変数一覧</h3>
+</section>
+<section id="変数一覧" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="変数一覧"><span class="header-section-number">2.4</span> 変数一覧</h2>
 <div id="tbl-variables" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-variables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -329,51 +319,53 @@ ul.task-list li input[type="checkbox"] {
 <th>変数名</th>
 <th>型</th>
 <th>説明</th>
-<th>単位</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>date</code></td>
+<td><code>title</code></td>
+<td>character</td>
+<td>ゲームタイトル</td>
+</tr>
+<tr class="even">
+<td><code>company</code></td>
+<td>factor</td>
+<td>運営会社</td>
+</tr>
+<tr class="odd">
+<td><code>platform</code></td>
+<td>factor</td>
+<td>対応OS</td>
+</tr>
+<tr class="even">
+<td><code>genre</code></td>
+<td>factor</td>
+<td>ゲームジャンル</td>
+</tr>
+<tr class="odd">
+<td><code>release_date</code></td>
 <td>Date</td>
-<td>日付</td>
-<td>-</td>
+<td>リリース日</td>
 </tr>
 <tr class="even">
-<td><code>hour</code></td>
-<td>integer</td>
-<td>時間帯（0–23）</td>
-<td>時</td>
+<td><code>end_date</code></td>
+<td>Date</td>
+<td>サービス終了日</td>
 </tr>
 <tr class="odd">
-<td><code>temperature</code></td>
-<td>numeric</td>
-<td>気温</td>
-<td>°C</td>
+<td><code>billing_type</code></td>
+<td>factor</td>
+<td>課金方式</td>
 </tr>
 <tr class="even">
-<td><code>humidity</code></td>
+<td><code>service_days</code></td>
 <td>numeric</td>
-<td>相対湿度</td>
-<td>%</td>
+<td>運営日数</td>
 </tr>
 <tr class="odd">
-<td><code>wind_speed</code></td>
+<td><code>service_months</code></td>
 <td>numeric</td>
-<td>風速</td>
-<td>m/s</td>
-</tr>
-<tr class="even">
-<td><code>is_rain</code></td>
-<td>integer</td>
-<td>降雨フラグ（0/1）</td>
-<td>-</td>
-</tr>
-<tr class="odd">
-<td><code>count</code></td>
-<td>integer</td>
-<td>利用数（目的変数）</td>
-<td>台</td>
+<td>運営月数</td>
 </tr>
 </tbody>
 </table>
@@ -381,60 +373,43 @@ ul.task-list li input[type="checkbox"] {
 </figure>
 </div>
 </section>
-</section>
-<section id="基本統計量" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="基本統計量"><span class="header-section-number">2.4</span> 基本統計量</h2>
+<section id="基本統計量" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="基本統計量"><span class="header-section-number">2.5</span> 基本統計量</h2>
 <div class="cell">
 <div id="tbl-summary-stats" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summary-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-表&nbsp;2.4: 基本統計量
+表&nbsp;2.4: 運営期間の基本統計量
 </figcaption>
 <div aria-describedby="tbl-summary-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;">変数</th>
-<th style="text-align: right;">平均</th>
-<th style="text-align: right;">標準偏差</th>
-<th style="text-align: right;">最小</th>
-<th style="text-align: right;">中央値</th>
-<th style="text-align: right;">最大</th>
+<th style="text-align: left;">指標</th>
+<th style="text-align: right;">service_months</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">temperature</td>
-<td style="text-align: right;">15.0</td>
-<td style="text-align: right;">9.0</td>
-<td style="text-align: right;">-6.1</td>
-<td style="text-align: right;">15.1</td>
-<td style="text-align: right;">36.0</td>
+<td style="text-align: left;">平均</td>
+<td style="text-align: right;">20.6</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">humidity</td>
-<td style="text-align: right;">60.0</td>
-<td style="text-align: right;">13.4</td>
-<td style="text-align: right;">20.0</td>
-<td style="text-align: right;">60.0</td>
-<td style="text-align: right;">100.0</td>
+<td style="text-align: left;">標準偏差</td>
+<td style="text-align: right;">18.3</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">wind_speed</td>
-<td style="text-align: right;">2.5</td>
-<td style="text-align: right;">1.8</td>
-<td style="text-align: right;">0.0</td>
-<td style="text-align: right;">2.1</td>
-<td style="text-align: right;">15.3</td>
+<td style="text-align: left;">最小値</td>
+<td style="text-align: right;">0.9</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">count</td>
-<td style="text-align: right;">63.8</td>
-<td style="text-align: right;">54.0</td>
-<td style="text-align: right;">0.0</td>
-<td style="text-align: right;">48.0</td>
-<td style="text-align: right;">277.0</td>
+<td style="text-align: left;">中央値</td>
+<td style="text-align: right;">13.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">最大値</td>
+<td style="text-align: right;">114.4</td>
 </tr>
 </tbody>
 </table>
@@ -443,102 +418,101 @@ ul.task-list li input[type="checkbox"] {
 </figure>
 </div>
 </div>
+<hr>
 </section>
-<section id="時系列の可視化" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="時系列の可視化"><span class="header-section-number">2.5</span> 時系列の可視化</h2>
-<p><a href="#fig-timeseries" class="quarto-xref">図&nbsp;<span>2.1</span></a> は日別の平均利用数の推移を示す。夏季に利用数が増加し、冬季に減少する季節パターンが確認できる。</p>
+<section id="運営期間の分布" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="運営期間の分布"><span class="header-section-number">2.6</span> 運営期間の分布</h2>
+<p><a href="#fig-service-hist" class="quarto-xref">図&nbsp;<span>2.1</span></a> はスマホゲームの運営期間分布を示している。<br>
+比較的短期間でサービス終了するゲームが多い一方、長期間運営されるゲームも一部存在する。</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-timeseries" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-service-hist" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-timeseries-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="02_データ_files/figure-html/fig-timeseries-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="図&nbsp;2.1: 日別平均利用数の推移"><img src="02_データ_files/figure-html/fig-timeseries-1.png" class="img-fluid figure-img" width="672"></a>
+<div aria-describedby="fig-service-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="02_データ_files/figure-html/fig-service-hist-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="図&nbsp;2.1: 運営期間の分布"><img src="02_データ_files/figure-html/fig-service-hist-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-timeseries-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.1: 日別平均利用数の推移
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-service-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;2.1: 運営期間の分布
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="ジャンル別運営期間" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="ジャンル別運営期間"><span class="header-section-number">2.7</span> ジャンル別運営期間</h2>
+<p><a href="#fig-genre-box" class="quarto-xref">図&nbsp;<span>2.2</span></a> はジャンル別の運営期間を示している。<br>
+ジャンルによって運営期間のばらつきに違いが見られる。</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Action  Adventure      Other     Puzzle        RPG    Shooter Simulation 
+        56         39         23         33        752         15         48 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-genre-box" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-genre-box-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="02_データ_files/figure-html/fig-genre-box-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="図&nbsp;2.2: ジャンル別運営期間"><img src="02_データ_files/figure-html/fig-genre-box-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-genre-box-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;2.2: ジャンル別運営期間
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="企業別ゲーム本数" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="企業別ゲーム本数"><span class="header-section-number">2.8</span> 企業別ゲーム本数</h2>
+<p><a href="#fig-company-bar" class="quarto-xref">図&nbsp;<span>2.3</span></a> は企業ごとのサービス終了ゲーム本数を示している。<br>
+一部企業ではサービス終了タイトル数が多い傾向が確認できる。</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-company-bar" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-company-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="02_データ_files/figure-html/fig-company-bar-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="図&nbsp;2.3: 企業別サービス終了ゲーム数"><img src="02_データ_files/figure-html/fig-company-bar-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-company-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;2.3: 企業別サービス終了ゲーム数
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="気象データとの関係" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="気象データとの関係"><span class="header-section-number">2.6</span> 気象データとの関係</h2>
-<p><a href="#fig-scatter-temp" class="quarto-xref">図&nbsp;<span>2.2</span></a> は気温と利用数の関係を示す散布図である。気温が高いほど利用数が増加する正の相関が認められる。</p>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-scatter-temp" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-scatter-temp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="02_データ_files/figure-html/fig-scatter-temp-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="図&nbsp;2.2: 気温と利用数の関係"><img src="02_データ_files/figure-html/fig-scatter-temp-1.png" class="img-fluid figure-img" width="672"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scatter-temp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.2: 気温と利用数の関係
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="曜日時間帯パターン" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="曜日時間帯パターン"><span class="header-section-number">2.7</span> 曜日・時間帯パターン</h2>
+<section id="ジャンル別割合" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="ジャンル別割合"><span class="header-section-number">2.9</span> ジャンル別割合</h2>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">時間帯別</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">曜日別</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">ジャンル別件数</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-hourly-pattern" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-genre-bar" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-hourly-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="02_データ_files/figure-html/fig-hourly-pattern-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="図&nbsp;2.3: 時間帯別の平均利用数"><img src="02_データ_files/figure-html/fig-hourly-pattern-1.png" class="img-fluid figure-img" width="672"></a>
+<div aria-describedby="fig-genre-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="02_データ_files/figure-html/fig-genre-bar-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="図&nbsp;2.4: ジャンル別件数"><img src="02_データ_files/figure-html/fig-genre-bar-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hourly-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.3: 時間帯別の平均利用数
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-wday-pattern" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-wday-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="02_データ_files/figure-html/fig-wday-pattern-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="図&nbsp;2.4: 曜日別の平均利用数"><img src="02_データ_files/figure-html/fig-wday-pattern-1.png" class="img-fluid figure-img" width="672"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wday-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.4: 曜日別の平均利用数
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="前処理パイプライン" class="level2" data-number="2.8">
-<h2 data-number="2.8" class="anchored" data-anchor-id="前処理パイプライン"><span class="header-section-number">2.8</span> 前処理パイプライン</h2>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-preprocess" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-preprocess-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div>
-<pre class="mermaid mermaid-js" data-label="fig-preprocess">flowchart LR
-    A[元データ取得] --&gt; B[欠損値処理]
-    B --&gt; C[特徴量生成]
-    C --&gt; D[時間帯・曜日&lt;br&gt;ダミー変数化]
-    D --&gt; E[訓練/テスト分割]
-    E --&gt; F[モデル入力]
-</pre>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-preprocess-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.5: データ前処理パイプライン
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-genre-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;2.4: ジャンル別件数
 </figcaption>
 </figure>
 </div>
@@ -546,6 +520,9 @@ ul.task-list li input[type="checkbox"] {
 </div>
 
 
+</div>
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

@@ -44,7 +44,7 @@
     "href": "01_研究概要.html#研究目的",
     "title": "1  研究概要",
     "section": "2.1 1. 研究目的",
-    "text": "2.1 1. 研究目的\n近年、スマホゲーム市場では多くのタイトルが配信される一方で、短期間でサービス終了してしまうゲームも多い。 特にゲーム会社ごとに、採用している課金モデルや運営方針に違いがあり、それがサービス終了の傾向に影響している可能性があると考えた。 本研究では、サービス終了したスマホゲームを企業別・課金モデル別に分類し、どのような特徴や傾向が見られるのかを明らかにすることを目的とする。",
+    "text": "2.1 1. 研究目的\n近年、スマホゲーム市場では多くのタイトルが配信される一方で、短期間でサービス終了してしまうゲームも多い。 特にゲーム会社ごとに、採用している課金モデルや運営方針に違いがあり、それがサービス終了の傾向に影響している可能性があると考えた。 本研究では、サービス終了したスマホゲームを分類し、どのような特徴や傾向が見られるのかを明らかにすることを目的とする。",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>研究概要</span>"
     ]
@@ -104,7 +104,7 @@
     "href": "02_データ.html#データの出典",
     "title": "2  データ",
     "section": "",
-    "text": "表 2.1: データの出典\n\n\n\n\n\n\n\n\n\n項目\n内容\n\n\n\n\n利用データ\n東京都シェアサイクル事業オープンデータ（※実際の出典に置き換えてください）\n\n\n気象データ\n気象庁 過去の気象データ検索（※実際の出典に置き換えてください）\n\n\n取得日\n2025年○月○日\n\n\n前処理スクリプト\nsrc/generate_data.R",
+    "text": "表 2.1: データの出典\n\n\n\n\n\n項目\n内容\n\n\n\n\n利用データ\nサービス終了したスマホゲーム一覧データ\n\n\n内容\nゲームタイトル、企業、ジャンル、課金方式、リリース日、終了日\n\n\n対象地域\n日本国内\n\n\n対象期間\n2014年〜2020年\n\n\n前処理スクリプト\nsrc/generate_data.R",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>データ</span>"
     ]
@@ -124,7 +124,17 @@
     "href": "02_データ.html#データ概要",
     "title": "2  データ",
     "section": "2.3 データ概要",
-    "text": "2.3 データ概要\n本研究では、東京都内のシェアサイクル利用数と気象データを組み合わせた合成データセットを使用する。\n\n\n\n表 2.2: データセットの概要\n\n\n\n\n\n項目\n内容\n\n\n\n\n対象期間\n2024年1月1日 〜 2024年12月31日（365日間）\n\n\n時間粒度\n1時間単位\n\n\nレコード数\n8,760件（365日 × 24時間）\n\n\n目的変数\n1時間あたりの利用数（count）\n\n\n説明変数\n気温、湿度、風速、降雨有無、曜日、時間帯\n\n\n\n\n\n\n\n変数一覧\n\n\n\n表 2.3: 変数一覧\n\n\n\n\n\n変数名\n型\n説明\n単位\n\n\n\n\ndate\nDate\n日付\n-\n\n\nhour\ninteger\n時間帯（0–23）\n時\n\n\ntemperature\nnumeric\n気温\n°C\n\n\nhumidity\nnumeric\n相対湿度\n%\n\n\nwind_speed\nnumeric\n風速\nm/s\n\n\nis_rain\ninteger\n降雨フラグ（0/1）\n-\n\n\ncount\ninteger\n利用数（目的変数）\n台",
+    "text": "2.3 データ概要\n本研究では、サービス終了したスマホゲームのデータセットを使用する。\nゲームごとの企業、ジャンル、課金方式、運営期間などを用いて分析を行う。\n\n\n\n表 2.2: データセット概要\n\n\n\n\n\n項目\n内容\n\n\n\n\n分析対象\nサービス終了したスマホゲーム\n\n\nレコード数\n966 件\n\n\n企業数\n650 社\n\n\nジャンル数\n8 種類\n\n\n主な説明変数\n企業、ジャンル、課金方式、プラットフォーム\n\n\n目的変数\n運営期間（service_months）",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>データ</span>"
+    ]
+  },
+  {
+    "objectID": "02_データ.html#変数一覧",
+    "href": "02_データ.html#変数一覧",
+    "title": "2  データ",
+    "section": "2.4 変数一覧",
+    "text": "2.4 変数一覧\n\n\n\n表 2.3: 変数一覧\n\n\n\n\n\n変数名\n型\n説明\n\n\n\n\ntitle\ncharacter\nゲームタイトル\n\n\ncompany\nfactor\n運営会社\n\n\nplatform\nfactor\n対応OS\n\n\ngenre\nfactor\nゲームジャンル\n\n\nrelease_date\nDate\nリリース日\n\n\nend_date\nDate\nサービス終了日\n\n\nbilling_type\nfactor\n課金方式\n\n\nservice_days\nnumeric\n運営日数\n\n\nservice_months\nnumeric\n運営月数",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>データ</span>"
     ]
@@ -133,48 +143,48 @@
     "objectID": "02_データ.html#基本統計量",
     "href": "02_データ.html#基本統計量",
     "title": "2  データ",
-    "section": "2.4 基本統計量",
-    "text": "2.4 基本統計量\n\n\n\n\n表 2.4: 基本統計量\n\n\n\n\n\n\n変数\n平均\n標準偏差\n最小\n中央値\n最大\n\n\n\n\ntemperature\n15.0\n9.0\n-6.1\n15.1\n36.0\n\n\nhumidity\n60.0\n13.4\n20.0\n60.0\n100.0\n\n\nwind_speed\n2.5\n1.8\n0.0\n2.1\n15.3\n\n\ncount\n63.8\n54.0\n0.0\n48.0\n277.0",
+    "section": "2.5 基本統計量",
+    "text": "2.5 基本統計量\n\n\n\n\n表 2.4: 運営期間の基本統計量\n\n\n\n\n\n\n指標\nservice_months\n\n\n\n\n平均\n20.6\n\n\n標準偏差\n18.3\n\n\n最小値\n0.9\n\n\n中央値\n13.7\n\n\n最大値\n114.4",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>データ</span>"
     ]
   },
   {
-    "objectID": "02_データ.html#時系列の可視化",
-    "href": "02_データ.html#時系列の可視化",
+    "objectID": "02_データ.html#運営期間の分布",
+    "href": "02_データ.html#運営期間の分布",
     "title": "2  データ",
-    "section": "2.5 時系列の可視化",
-    "text": "2.5 時系列の可視化\n図 2.1 は日別の平均利用数の推移を示す。夏季に利用数が増加し、冬季に減少する季節パターンが確認できる。\n\n\n\n\n\n\n\n\n図 2.1: 日別平均利用数の推移",
+    "section": "2.6 運営期間の分布",
+    "text": "2.6 運営期間の分布\n図 2.1 はスマホゲームの運営期間分布を示している。\n比較的短期間でサービス終了するゲームが多い一方、長期間運営されるゲームも一部存在する。\n\n\n\n\n\n\n\n\n図 2.1: 運営期間の分布",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>データ</span>"
     ]
   },
   {
-    "objectID": "02_データ.html#気象データとの関係",
-    "href": "02_データ.html#気象データとの関係",
+    "objectID": "02_データ.html#ジャンル別運営期間",
+    "href": "02_データ.html#ジャンル別運営期間",
     "title": "2  データ",
-    "section": "2.6 気象データとの関係",
-    "text": "2.6 気象データとの関係\n図 2.2 は気温と利用数の関係を示す散布図である。気温が高いほど利用数が増加する正の相関が認められる。\n\n\n\n\n\n\n\n\n図 2.2: 気温と利用数の関係",
+    "section": "2.7 ジャンル別運営期間",
+    "text": "2.7 ジャンル別運営期間\n図 2.2 はジャンル別の運営期間を示している。\nジャンルによって運営期間のばらつきに違いが見られる。\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.2.1     ✔ readr     2.2.0\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.3     ✔ tibble    3.3.1\n✔ lubridate 1.9.5     ✔ tidyr     1.3.2\n✔ purrr     1.2.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\n\n    Action  Adventure      Other     Puzzle        RPG    Shooter Simulation \n        56         39         23         33        752         15         48 \n\n\n\n\n\n\n\n\n\n\n図 2.2: ジャンル別運営期間",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>データ</span>"
     ]
   },
   {
-    "objectID": "02_データ.html#曜日時間帯パターン",
-    "href": "02_データ.html#曜日時間帯パターン",
+    "objectID": "02_データ.html#企業別ゲーム本数",
+    "href": "02_データ.html#企業別ゲーム本数",
     "title": "2  データ",
-    "section": "2.7 曜日・時間帯パターン",
-    "text": "2.7 曜日・時間帯パターン\n\n時間帯別曜日別\n\n\n\n\n\n\n\n\n\n\n図 2.3: 時間帯別の平均利用数\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n図 2.4: 曜日別の平均利用数",
+    "section": "2.8 企業別ゲーム本数",
+    "text": "2.8 企業別ゲーム本数\n図 2.3 は企業ごとのサービス終了ゲーム本数を示している。\n一部企業ではサービス終了タイトル数が多い傾向が確認できる。\n\n\n\n\n\n\n\n\n図 2.3: 企業別サービス終了ゲーム数",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>データ</span>"
     ]
   },
   {
-    "objectID": "02_データ.html#前処理パイプライン",
-    "href": "02_データ.html#前処理パイプライン",
+    "objectID": "02_データ.html#ジャンル別割合",
+    "href": "02_データ.html#ジャンル別割合",
     "title": "2  データ",
-    "section": "2.8 前処理パイプライン",
-    "text": "2.8 前処理パイプライン\n\n\n\n\n\n\nflowchart LR\n    A[元データ取得] --&gt; B[欠損値処理]\n    B --&gt; C[特徴量生成]\n    C --&gt; D[時間帯・曜日&lt;br&gt;ダミー変数化]\n    D --&gt; E[訓練/テスト分割]\n    E --&gt; F[モデル入力]\n\n\n\n\n図 2.5: データ前処理パイプライン",
+    "section": "2.9 ジャンル別割合",
+    "text": "2.9 ジャンル別割合\n\nジャンル別件数\n\n\n\n\n\n\n\n\n\n\n図 2.4: ジャンル別件数",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>データ</span>"
     ]
