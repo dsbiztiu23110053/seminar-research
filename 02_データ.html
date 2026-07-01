@@ -335,10 +335,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <table class="caption-top table">
 <caption>変数一覧</caption>
 <colgroup>
-<col style="width: 29%">
-<col style="width: 23%">
-<col style="width: 23%">
-<col style="width: 23%">
+<col style="width: 27%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 24%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -496,6 +496,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>図（課金総額の分布）は、ユーザー全体における累計アプリ内課金総額（<code>InAppPurchaseAmount</code>）の分布を示したヒストグラムである。<br>
+分布は極端に左側に偏っており、50ドル未満の低額課金帯に大部分のユーザーが集中している。<br>
+その一方で、グラフの右側には数百ドル以上に達する長い裾（ロングテール）が伸びており、一部の少数のユーザーが非常に高い金額を課金していることが確認できる。</p>
 </section>
 <section id="プレイ頻度と熱中度スコアの関係" class="level2" data-number="2.7">
 <h2 data-number="2.7" class="anchored" data-anchor-id="プレイ頻度と熱中度スコアの関係"><span class="header-section-number">2.7</span> プレイ頻度と熱中度スコアの関係</h2>
@@ -514,6 +517,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>図(プレイ回数と課金総額の関係)は、ユーザーのプレイ回数と累計課金総額の相関を示した散布図である。<br>
+全体的な傾向として、課金総額が500ドル以下の低額課金帯に大部分のユーザーが集中しており、モバイルゲーム特有のロングテールな収益構造が確認できる。<br>
+また、プレイ回数と課金総額の間に明確な線形相関は見られなかった。</p>
 </section>
 <section id="ジャンル別デバイス別の行動パターン" class="level2" data-number="2.8">
 <h2 data-number="2.8" class="anchored" data-anchor-id="ジャンル別デバイス別の行動パターン"><span class="header-section-number">2.8</span> ジャンル別・デバイス別の行動パターン</h2>
@@ -533,6 +539,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>図（ジャンル別の平均課金総額）は、ゲームジャンルごとのユーザー1人あたりにおける平均累計課金額を比較したものである。<br>
+ジャンル間で課金傾向に大きな格差が存在しており、<strong>ストラテジー（Strategy）、MOBA、RPG</strong> といった競争や育成要素の強いジャンルにおいて平均課金額が突出して高いことが示された。<br>
+一方で、パズル（Puzzle）やカジュアル（Casual）といったライト層向けのジャンルでは平均課金額が低く留まっている。</p>
 </section>
 <section id="デバイス別のプレイ頻度" class="level3">
 <h3 class="anchored" data-anchor-id="デバイス別のプレイ頻度">デバイス別のプレイ頻度</h3>
@@ -550,6 +559,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>図（デバイス別の平均プレイ回数）は、ユーザーが使用しているデバイス（AndroidおよびiOS）ごとの週平均プレイ回数を比較したものである。 両プラットフォーム間において平均プレイ回数に顕著な差は認められず、ユーザーはデバイスの環境に関わらず同程度の頻度でゲームをプレイしていることが示された。</p>
 </section>
 </section>
 <section id="前処理パイプライン" class="level2" data-number="2.9">
