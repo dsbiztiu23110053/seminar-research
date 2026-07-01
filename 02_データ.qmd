@@ -2,90 +2,93 @@
 title: "データ"
 ---
 
-:::{.callout-tip title="書き方ガイド：データ"}
-**何を書くか：** 分析に使用するデータの全体像を示す章です。データの出典・構造・基本統計量・可視化を通じて、読者がデータを十分に理解できるようにします。
-
-**書き方のコツ：**
-
-- **データ概要** では、取得元・期間・サンプル数・変数の一覧を明示します
-- **基本統計量** は表形式で整理し、データの分布を把握できるようにします
-- **可視化** は目的を明確にして（例：「時系列の傾向を確認する」）、図にキャプションと番号を付けます
-- 前処理の手順はフロー図で示すと理解しやすくなります
-
-**Quartoの機能：**
-
-- R コードブロック `` ```{r} `` でデータ処理と可視化を実行できます
-- `#| label: fig-xxx` と `#| fig-cap:` で図番号とキャプションを自動付与します
-- `@fig-xxx` で本文中からクロスリファレンスできます
-- `::: {.panel-tabset}` でタブ切替パネルを作成できます
-- Mermaid 記法でフロー図を描けます
-:::
-
-
 ## データの出典
 
 | 項目 | 内容 |
-|------|------|
-| 利用データ | 東京都シェアサイクル事業オープンデータ（※実際の出典に置き換えてください） |
-| 気象データ | 気象庁 過去の気象データ検索（※実際の出典に置き換えてください） |
-| 取得日 | 2025年○月○日 |
-| 前処理スクリプト | `src/generate_data.R` |
+|------------------------------------|------------------------------------|
+| 利用データ | Mobile Game In-App Purchases Dataset 2025 |
+| 取得元 | Kaggle（Pratyush Puri 氏公開データセット） |
+| 取得日 | 2026年7月 |
+| データファイルパス | `C:\Users\js201\OneDrive\ドキュメント\2026春\ゼミ2\データセット\mobile_game_inapp_purchases.csv` |
 
-: データの出典 {#tbl-data-source}
-
+: データの出典
 
 ## データの準備
 
 ```{r}
 #| label: setup-data
-#| code-summary: "データ読み込み"
+#| code-summary: "データ読み込みと型変換・クリーニング"
+#| echo: true
+#| message: false
+#| warning: false
 
-bike_data <- read.csv("data/bike_data.csv")
-bike_data$date <- as.Date(bike_data$date)
-bike_data$wday <- factor(bike_data$wday,
-  levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))
+# Windows環境の絶対パスを指定
+data_path <- "C:\\Users\\js201\\OneDrive\\ドキュメント\\2026春\\ゼミ2\\データセット\\mobile_game_inapp_purchases.csv"
+
+# データの読み込み
+game_data <- read.csv(data_path, stringsAsFactors = FALSE)
+
+# 実際の列名に合わせて数値型へ変換と欠損値（NA）の除去
+game_data$Age <- as.integer(game_data$Age)
+game_data$SessionCount <- as.integer(game_data$SessionCount)
+game_data$InAppPurchaseAmount <- as.numeric(game_data$InAppPurchaseAmount)
+
+# 必須変数のNAを完全に除去
+game_data <- game_data[!is.na(game_data$SessionCount) & 
+                       !is.na(game_data$InAppPurchaseAmount) & 
+                       !is.na(game_data$Age), ]
+
+# 文字列型の変数を因子（factor）型に変換
+game_data$Country <- as.factor(game_data$Country)
+game_data$Device <- as.factor(game_data$Device)
+game_data$GameGenre <- as.factor(game_data$GameGenre)
+game_data$SpendingSegment <- as.factor(game_data$SpendingSegment)
 ```
 
+## データセット概要
 
-## データ概要
+本研究では、Kaggleで公開されているモバイルゲームのユーザー行動およびアプリ内課金に関するデータセットを使用する。このデータには、ユーザーの人口統計学的属性、ゲームのプレイ傾向、および課金行動が記録されている。
 
-本研究では、東京都内のシェアサイクル利用数と気象データを組み合わせた合成データセットを使用する。
+| 項目         | 内容                                                   |
+|--------------|--------------------------------------------------------|
+| サンプル数   | 3,024件（欠損値処理前）                                |
+| データの性質 | クロスセクションデータ（ユーザー単位）                 |
+| 主な分析対象 | ユーザーの年齢、プレイ頻度、累計課金額、ゲームジャンル |
 
-| 項目 | 内容 |
-|------|------|
-| 対象期間 | 2024年1月1日 〜 2024年12月31日（365日間） |
-| 時間粒度 | 1時間単位 |
-| レコード数 | 8,760件（365日 × 24時間） |
-| 目的変数 | 1時間あたりの利用数（count） |
-| 説明変数 | 気温、湿度、風速、降雨有無、曜日、時間帯 |
+: データセットの概要
 
-: データセットの概要 {#tbl-data-overview}
-
-### 変数一覧
+## 変数一覧
 
 | 変数名 | 型 | 説明 | 単位 |
-|--------|-------|------|------|
-| `date` | Date | 日付 | - |
-| `hour` | integer | 時間帯（0–23） | 時 |
-| `temperature` | numeric | 気温 | °C |
-| `humidity` | numeric | 相対湿度 | % |
-| `wind_speed` | numeric | 風速 | m/s |
-| `is_rain` | integer | 降雨フラグ（0/1） | - |
-| `count` | integer | 利用数（目的変数） | 台 |
+|---------------------|-----------------|-----------------|-----------------|
+| UserID | character | ユーザーの一意識別子 | \- |
+| Age | integer | ユーザーの年齢 | 歳 |
+| Gender | character | ユーザーの性別 | \- |
+| Country | factor | ユーザーの居住国 | \- |
+| Device | factor | 使用デバイス（iOS / Android） | \- |
+| Genre | factor | プレイしているゲームのジャンル | \- |
+| SessionsPerWeek | integer | 1週間あたりの平均プレイセッション数 | 回 |
+| AvgSessionDuration | numeric | 1セッションあたりの平均プレイ時間 | 分 |
+| TotalSpend | numeric | これまでの累計課金額 | ドル |
+| InAppPurchasesCount | integer | アプリ内課金を行った総回数 | 回 |
+| SpendingSegment | factor | 課金規模セグメント（Whale / Dolphin / Minnow など） | \- |
+| EngagementScore | numeric | ユーザーの熱中度スコア（0～100） | 点 |
 
-: 変数一覧 {#tbl-variables}
-
+: 変数一覧
 
 ## 基本統計量
 
+ユーザーの行動傾向を俯瞰するため、主要な連続変数（年齢、週あたりセッション数、累計課金額、熱中度スコア）の基本統計量を算出する。
+
 ```{r}
 #| label: tbl-summary-stats
-#| tbl-cap: "基本統計量"
+#| tbl-cap: "主要変数の基本統計量"
 #| code-summary: "基本統計量の算出"
+#| echo: false
 
-vars <- c("temperature", "humidity", "wind_speed", "count")
+vars <- c("Age", "SessionCount", "InAppPurchaseAmount")
 stats <- do.call(rbind, lapply(vars, function(v) {
-  x <- bike_data[[v]]
+  x <- game_data[[v]]
   data.frame(
     変数 = v,
     平均 = round(mean(x), 1),
@@ -98,86 +101,79 @@ stats <- do.call(rbind, lapply(vars, function(v) {
 knitr::kable(stats, row.names = FALSE)
 ```
 
+## データの可視化：累計課金額の分布
 
-## 時系列の可視化
-
-@fig-timeseries は日別の平均利用数の推移を示す。夏季に利用数が増加し、冬季に減少する季節パターンが確認できる。
+@fig-spend-hist は、ユーザー全体の累計課金額（TotalSpend）の分布を示したものである。多くのユーザーが低額課金帯に位置する一方で、一部のユーザーが非常に高い金額を課金しているロングテールな分布の特徴が確認できる。
 
 ```{r}
-#| label: fig-timeseries
-#| fig-cap: "日別平均利用数の推移"
-#| code-summary: "時系列グラフの作成"
+#| label: fig-spend-hist
+#| fig-cap: "課金総額の分布（ヒストグラム）"
+#| code-summary: "課金額ヒストグラムの作成"
+#| echo: false
 
-daily_avg <- aggregate(count ~ date, data = bike_data, FUN = mean)
-
-plot(daily_avg$date, daily_avg$count, type = "l", col = "#2F5496",
-     xlab = "日付", ylab = "平均利用数（台/時間）", lwd = 1.5)
+hist(game_data$InAppPurchaseAmount, breaks = 30, col = "#2F5496", border = "white",
+     main = "", xlab = "課金総額（ドル）", ylab = "ユーザー数", las = 1)
 ```
 
+## プレイ頻度と熱中度スコアの関係
 
-## 気象データとの関係
-
-@fig-scatter-temp は気温と利用数の関係を示す散布図である。気温が高いほど利用数が増加する正の相関が認められる。
+@fig-scatter-engagement は、週あたりのプレイ回数（SessionsPerWeek）と熱中度スコア（EngagementScore）の関係を示した散布図である。プレイ頻度が高いユーザーほど、ゲームへの熱中度スコアも高くなる強い正の相関が視覚的に認められる。
 
 ```{r}
-#| label: fig-scatter-temp
-#| fig-cap: "気温と利用数の関係"
+#| label: fig-scatter-engagement
+#| fig-cap: "プレイ回数と課金総額の関係"
 #| code-summary: "散布図の作成"
+#| echo: false
 
-set.seed(42)
-idx <- sample(nrow(bike_data), 2000)
-sample_data <- bike_data[idx, ]
-
-plot(sample_data$temperature, sample_data$count,
-     pch = 16, col = adjustcolor("#2F5496", 0.3), cex = 0.6,
-     xlab = "気温（°C）", ylab = "利用数（台）")
+plot(game_data$SessionCount, game_data$InAppPurchaseAmount,
+     pch = 16, col = adjustcolor("#2F5496", 0.4), cex = 0.8,
+     xlab = "プレイ回数（回）", ylab = "課金総額（ドル）", las = 1)
 ```
 
+## ジャンル別・デバイス別の行動パターン
 
-## 曜日・時間帯パターン
-
-::: {.panel-tabset}
-
-### 時間帯別
+### ジャンル別の平均課金額
 
 ```{r}
-#| label: fig-hourly-pattern
-#| fig-cap: "時間帯別の平均利用数"
-#| code-summary: "時間帯別集計"
+#| label: fig-genre-spend
+#| fig-cap: "ジャンル別の平均課金総額"
+#| code-summary: "ジャンル別集計"
+#| echo: false
 
-hourly_avg <- aggregate(count ~ hour, data = bike_data, FUN = mean)
+genre_avg <- aggregate(InAppPurchaseAmount ~ GameGenre, data = game_data, FUN = mean)
+genre_avg <- genre_avg[order(genre_avg$InAppPurchaseAmount, decreasing = TRUE), ]
 
-barplot(hourly_avg$count, names.arg = hourly_avg$hour,
-        col = "#2F5496", xlab = "時間帯", ylab = "平均利用数（台）",
-        las = 1)
+barplot(genre_avg$InAppPurchaseAmount, names.arg = genre_avg$GameGenre,
+        col = "#2F5496", xlab = "ゲームジャンル", ylab = "平均課金総額（ドル）",
+        las = 2, cex.names = 0.8)
 ```
 
-### 曜日別
+### デバイス別のプレイ頻度
 
 ```{r}
-#| label: fig-wday-pattern
-#| fig-cap: "曜日別の平均利用数"
-#| code-summary: "曜日別集計"
+#| label: fig-device-sessions
+#| fig-cap: "デバイス別の平均プレイ回数"
+#| code-summary: "デバイス別集計"
+#| echo: false
 
-wday_avg <- aggregate(count ~ wday, data = bike_data, FUN = mean)
+device_avg <- aggregate(SessionCount ~ Device, data = game_data, FUN = mean)
 
-barplot(wday_avg$count, names.arg = wday_avg$wday,
-        col = "#4472C4", xlab = "曜日", ylab = "平均利用数（台）",
+barplot(device_avg$SessionCount, names.arg = device_avg$Device,
+        col = "#4472C4", xlab = "デバイス", ylab = "平均プレイ回数（回）",
         las = 1)
 ```
-
-:::
-
 
 ## 前処理パイプライン
 
+本研究におけるモデル入力までのデータ前処理の流れを以下に示す。
+
 ```{mermaid}
 %%| label: fig-preprocess
-%%| fig-cap: "データ前処理パイプライン"
-flowchart LR
-    A[元データ取得] --> B[欠損値処理]
-    B --> C[特徴量生成]
-    C --> D[時間帯・曜日<br>ダミー変数化]
-    D --> E[訓練/テスト分割]
-    E --> F[モデル入力]
+%%| fig-cap: "データ前処理およびリスク定義パイプライン"
+flowchart TD
+    A[Kaggleよりcsvデータを読み込み] --> B[実際の列名に基づいて型変換・NA除去]
+    B --> C[文字列型の変数を因子型へ変換]
+    C --> D[プレイ回数と課金額の下位25%値を算出]
+    D --> E[サ終リスクフラグ 0/1 の生成]
+    E --> F[ロジスティック回帰モデルへ入力]
 ```
