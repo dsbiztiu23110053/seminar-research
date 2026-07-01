@@ -23,61 +23,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -163,7 +109,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating slimcontent quarto-light">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -244,17 +190,16 @@ window.Quarto = {
    
   <ul class="collapse">
   <li><a href="#手法の選定" id="toc-手法の選定" class="nav-link active" data-scroll-target="#手法の選定"><span class="header-section-number">3.1</span> 手法の選定</a></li>
-  <li><a href="#線形回帰ベースライン" id="toc-線形回帰ベースライン" class="nav-link" data-scroll-target="#線形回帰ベースライン"><span class="header-section-number">3.2</span> 線形回帰（ベースライン）</a></li>
-  <li><a href="#回帰木rpart" id="toc-回帰木rpart" class="nav-link" data-scroll-target="#回帰木rpart"><span class="header-section-number">3.3</span> 回帰木（rpart）</a></li>
+  <li><a href="#ロジスティック回帰分析の理論的背景" id="toc-ロジスティック回帰分析の理論的背景" class="nav-link" data-scroll-target="#ロジスティック回帰分析の理論的背景"><span class="header-section-number">3.2</span> ロジスティック回帰分析の理論的背景</a></li>
+  <li><a href="#サービス終了リスク目的変数の定義" id="toc-サービス終了リスク目的変数の定義" class="nav-link" data-scroll-target="#サービス終了リスク目的変数の定義"><span class="header-section-number">3.3</span> サービス終了リスク（目的変数）の定義</a></li>
   <li><a href="#説明変数の設計" id="toc-説明変数の設計" class="nav-link" data-scroll-target="#説明変数の設計"><span class="header-section-number">3.4</span> 説明変数の設計</a></li>
   <li><a href="#分析パイプライン" id="toc-分析パイプライン" class="nav-link" data-scroll-target="#分析パイプライン"><span class="header-section-number">3.5</span> 分析パイプライン</a></li>
-  <li><a href="#精度評価指標" id="toc-精度評価指標" class="nav-link" data-scroll-target="#精度評価指標"><span class="header-section-number">3.6</span> 精度評価指標</a></li>
-  <li><a href="#追加パッケージの利用発展" id="toc-追加パッケージの利用発展" class="nav-link" data-scroll-target="#追加パッケージの利用発展"><span class="header-section-number">3.7</span> 追加パッケージの利用（発展）</a></li>
+  <li><a href="#モデルの評価指標" id="toc-モデルの評価指標" class="nav-link" data-scroll-target="#モデルの評価指標"><span class="header-section-number">3.6</span> モデルの評価指標</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -275,199 +220,128 @@ window.Quarto = {
 </header>
 
 
-<div class="callout callout-style-default callout-tip callout-titled" title="書き方ガイド：分析手法">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">ヒント</span>書き方ガイド：分析手法
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>何を書くか：</strong> 使用する分析手法の理論的背景と、なぜその手法を選んだかの根拠を述べる章です。</p>
-<p><strong>書き方のコツ：</strong></p>
-<ul>
-<li><strong>手法の選定理由</strong> を比較表で示すと説得力が増します</li>
-<li><strong>数学的な定義</strong> は LaTeX 数式で正確に記述します</li>
-<li>パイプライン全体を図解すると読者の理解が深まります</li>
-<li>評価指標は定義を明示し、なぜその指標を使うのかを説明します</li>
-</ul>
-<p><strong>Quartoの機能：</strong></p>
-<ul>
-<li>LaTeX 数式は <code>$$</code> で囲みます。<code>{#eq-label}</code> で式番号を付与し、<code>@eq-label</code> で参照します</li>
-<li>Mermaid 記法でパイプライン図やフロー図を描けます</li>
-<li><code>#| label: tbl-xxx</code> と <code>#| tbl-cap:</code> で表番号とキャプションを自動付与します</li>
-</ul>
-</div>
-</div>
-<section id="手法の選定" class="level2 page-columns page-full" data-number="3.1">
+<section id="手法の選定" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="手法の選定"><span class="header-section-number">3.1</span> 手法の選定</h2>
-<p>本研究では、以下の2手法を比較する。ベースラインとして線形回帰を用い、非線形な関係を捉える手法として回帰木（rpart）<span class="citation" data-cites="James2023">(<a href="#ref-James2023" role="doc-biblioref">James ほか 2023年</a>)</span> を採用する。</p>
-<div class="no-row-height column-margin column-container"></div><div id="tbl-method-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-method-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-表&nbsp;3.1: 手法の比較
-</figcaption>
-<div aria-describedby="tbl-method-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>本研究では、モバイルゲームにおける擬似的な「サービス終了（サ終）リスク」の発生要因を統計的に解明するため、<strong>ロジスティック回帰分析（Logistic Regression）</strong>を採用する。</p>
+<p>目的変数が「サ終リスク群（1）」または「健全群（0）」という二値（バイナリ）データであるため、通常の線形回帰モデルではなく、確率を0から1の範囲に収める一般化線形モデル（GLM）の一種であるロジスティック回帰が最適である。本手法を用いることで、各ユーザー属性がリスク発生に与える影響度を「オッズ比」として定量的に評価・解釈することが可能となる。</p>
 <table class="caption-top table">
+<caption>手法の選定根拠</caption>
 <colgroup>
+<col style="width: 21%">
+<col style="width: 31%">
 <col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
+<col style="width: 21%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>手法</th>
-<th>特徴</th>
+<th>対象データ</th>
+<th>主な目的</th>
 <th>利点</th>
-<th>欠点</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>線形回帰</td>
-<td>線形モデル</td>
-<td>解釈が容易、計算が高速</td>
-<td>非線形関係を捉えにくい</td>
-</tr>
-<tr class="even">
-<td>回帰木（rpart）</td>
-<td>決定木ベースの再帰分割</td>
-<td>非線形対応、解釈が視覚的</td>
-<td>過学習リスク、不安定性</td>
+<td>ロジスティック回帰</td>
+<td>二値変数（0/1）</td>
+<td>リスク発生確率の予測と要因特定</td>
+<td>係数を「オッズ比」として容易に解釈できる</td>
 </tr>
 </tbody>
 </table>
-</div>
-</figure>
-</div>
 </section>
-<section id="線形回帰ベースライン" class="level2 page-columns page-full" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="線形回帰ベースライン"><span class="header-section-number">3.2</span> 線形回帰（ベースライン）</h2>
-<p>線形回帰モデルは、目的変数 <span class="math inline">\(y\)</span> を説明変数 <span class="math inline">\(\mathbf{x} = (x_1, x_2, \ldots, x_p)\)</span> の線形結合で表現する。</p>
-<p><span id="eq-linear"><span class="math display">\[
-y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p + \varepsilon
-\tag{3.1}\]</span></span></p>
-<p>ここで <span class="math inline">\(\beta_0\)</span> は切片、<span class="math inline">\(\beta_1, \ldots, \beta_p\)</span> は回帰係数、<span class="math inline">\(\varepsilon\)</span> は誤差項である <span class="citation" data-cites="James2023">(<a href="#ref-James2023" role="doc-biblioref">James ほか 2023年</a>)</span>。</p>
-<div class="no-row-height column-margin column-container"></div></section>
-<section id="回帰木rpart" class="level2 page-columns page-full" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="回帰木rpart"><span class="header-section-number">3.3</span> 回帰木（rpart）</h2>
-<p>回帰木は、説明変数の空間を再帰的に分割し、各領域ごとに目的変数の平均値を予測するノンパラメトリック手法である <span class="citation" data-cites="James2023">(<a href="#ref-James2023" role="doc-biblioref">James ほか 2023年</a>)</span>。R の <code>rpart</code> パッケージはR に標準搭載されており、追加インストール不要で利用できる。</p>
-<div class="no-row-height column-margin column-container"><div id="ref-James2023" class="csl-entry" role="listitem">
-James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, と Jonathan Taylor. 2023年. <em>An Introduction to Statistical Learning: with Applications in <span>R</span></em>. 2nd 版. Springer. <a href="https://doi.org/10.1007/978-3-031-38747-0">https://doi.org/10.1007/978-3-031-38747-0</a>.
-</div></div><section id="分割の基準" class="level3">
-<h3 class="anchored" data-anchor-id="分割の基準">分割の基準</h3>
-<p>各ノードにおいて、残差二乗和（RSS）を最小化する分割点を探索する。</p>
-<p><span id="eq-rss-split"><span class="math display">\[
-\text{RSS} = \sum_{x_i \in R_1} (y_i - \hat{y}_{R_1})^2 + \sum_{x_i \in R_2} (y_i - \hat{y}_{R_2})^2
-\tag{3.2}\]</span></span></p>
-<p>ここで <span class="math inline">\(R_1, R_2\)</span> は分割後の2つの領域、<span class="math inline">\(\hat{y}_{R_k}\)</span> は各領域内の目的変数の平均値である。</p>
+<section id="ロジスティック回帰分析の理論的背景" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="ロジスティック回帰分析の理論的背景"><span class="header-section-number">3.2</span> ロジスティック回帰分析の理論的背景</h2>
+<p>ロジスティック回帰モデルでは、あるユーザーがサ終リスク（<span class="math inline">\(y = 1\)</span>）に該当する確率を <span class="math inline">\(p = P(y = 1 | \mathbf{x})\)</span> としたとき、確率 <span class="math inline">\(p\)</span> のロジット変換（対数オッズ）を説明変数 <span class="math inline">\(\mathbf{x} = (x_1, x_2, \ldots, x_k)\)</span> の線形結合で表現する。</p>
+<p><span class="math display">\[\ln\left(\frac{p}{1-p}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k\]</span> {#eq-logistic-logit}</p>
+<p>ここで <span class="math inline">\(\beta_0\)</span> は切片、<span class="math inline">\(\beta_1, \ldots, \beta_k\)</span> は各説明変数の回帰係数である。この式を確率 <span class="math inline">\(p\)</span> について解くと、以下のシグモイド関数（ロジスティック関数）が得られる。</p>
+<p><span class="math display">\[p = \frac{1}{1 + \exp(-(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k))}\]</span> {#eq-logistic-prob}</p>
+<section id="オッズ比odds-ratioの解釈" class="level3">
+<h3 class="anchored" data-anchor-id="オッズ比odds-ratioの解釈">オッズ比（Odds Ratio）の解釈</h3>
+<p>説明変数 <span class="math inline">\(x_j\)</span> が1単位増加したときのサ終リスクのオッズ比は、回帰係数 <span class="math inline">\(\beta_j\)</span> を用いて <span class="math inline">\(\exp(\beta_j)\)</span> と表される。オッズ比が1より大きければリスクを高める要因（危険因子）、1より小さければリスクを抑える要因（保護因子）として直感的に解釈できる。</p>
 </section>
-<section id="決定木の構造" class="level3">
-<h3 class="anchored" data-anchor-id="決定木の構造">決定木の構造</h3>
+</section>
+<section id="サービス終了リスク目的変数の定義" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="サービス終了リスク目的変数の定義"><span class="header-section-number">3.3</span> サービス終了リスク（目的変数）の定義</h2>
+<p>本研究では、外部のサービス終了データを用いず、データセット内のユーザー行動から擬似的にサ終リスクをモデリングする。ゲーム運営の破綻を招く2大要因「過疎化（アクティブ低下）」と「売上低迷」を再現するため、以下の複合条件を満たすユーザーを「サ終リスク群（<code>risk_flag = 1</code>）」と定義する。</p>
+<ul>
+<li><strong>条件1（過疎化の予兆）:</strong> 週あたりプレイ回数（<code>SessionCount</code>）が全ユーザーの下位25%以下</li>
+<li><strong>条件2（売上低迷の予兆）:</strong> アプリ内課金総額（<code>InAppPurchaseAmount</code>）が全ユーザーの下位25%以下</li>
+</ul>
+<p>この双方に該当するユーザーを <code>1</code>、それ以外の健全なユーザーを <code>0</code> とする二値変数をR内で動的に生成する。</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-decision-tree" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-risk-definition" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-decision-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-risk-definition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
-<pre class="mermaid mermaid-js" data-label="fig-decision-tree">flowchart TD
-    A["気温 ≥ 20°C ?"] --&gt;|Yes| B["時間帯 ∈ 通勤時間 ?"]
-    A --&gt;|No| C["降雨あり ?"]
-    B --&gt;|Yes| D["予測: 150台"]
-    B --&gt;|No| E["予測: 90台"]
-    C --&gt;|Yes| F["予測: 25台"]
-    C --&gt;|No| G["予測: 55台"]
+<pre class="mermaid mermaid-js" data-label="fig-risk-definition">flowchart TD
+    A["対象ユーザーの判定"] --&gt; B{"SessionCount ≤ 下位25%値 ?"}
+    B --&gt;|Yes| C{"InAppPurchaseAmount ≤ 下位25%値 ?"}
+    B --&gt;|No| E["健全群 (risk_flag = 0)"]
+    C --&gt;|Yes| D["サ終リスク群 (risk_flag = 1)"]
+    C --&gt;|No| E
 </pre>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-decision-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;3.1: 決定木による分岐のイメージ
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-risk-definition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;3.1: プレイ頻度と課金額によるサ終リスクの条件分岐
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="剪定pruning" class="level3">
-<h3 class="anchored" data-anchor-id="剪定pruning">剪定（Pruning）</h3>
-<p>回帰木は深くなるほど訓練データに過学習する。これを防ぐため、コスト複雑度剪定（cost-complexity pruning）を行う。</p>
-<p><span id="eq-cost-complexity"><span class="math display">\[
-\text{Cost} = \text{RSS} + \alpha \cdot |T|
-\tag{3.3}\]</span></span></p>
-<p>ここで <span class="math inline">\(|T|\)</span> は木の終端ノード数、<span class="math inline">\(\alpha\)</span> は複雑度パラメータ（<code>cp</code>）である。<span class="math inline">\(\alpha\)</span> が大きいほど単純な木が選ばれる。</p>
-</section>
-</section>
 <section id="説明変数の設計" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="説明変数の設計"><span class="header-section-number">3.4</span> 説明変数の設計</h2>
-<div id="tbl-features" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-features-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-表&nbsp;3.2: 説明変数一覧
-</figcaption>
-<div aria-describedby="tbl-features-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>ロジスティック回帰モデルに投入する説明変数は、データセットに含まれるユーザーの人口統計学的属性およびプレイ環境に関する以下の4変数である。</p>
 <table class="caption-top table">
+<caption>説明変数の設計</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 39%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>変数名</th>
 <th>型</th>
 <th>説明</th>
-<th>変換</th>
+<th>モデル内での扱い</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>hour</code></td>
+<td>Age</td>
 <td>integer</td>
-<td>時間帯</td>
-<td>そのまま使用</td>
+<td>ユーザーの年齢</td>
+<td>連続変数としてそのまま投入</td>
 </tr>
 <tr class="even">
-<td><code>temperature</code></td>
-<td>numeric</td>
-<td>気温</td>
-<td>そのまま使用</td>
+<td>Country</td>
+<td>factor</td>
+<td>ユーザーの居住国</td>
+<td>カテゴリ変数（ダミー変数化）</td>
 </tr>
 <tr class="odd">
-<td><code>humidity</code></td>
-<td>numeric</td>
-<td>湿度</td>
-<td>そのまま使用</td>
+<td>Device</td>
+<td>factor</td>
+<td>使用デバイス（iOS / Android）</td>
+<td>カテゴリ変数（ダミー変数化）</td>
 </tr>
 <tr class="even">
-<td><code>wind_speed</code></td>
-<td>numeric</td>
-<td>風速</td>
-<td>そのまま使用</td>
-</tr>
-<tr class="odd">
-<td><code>is_rain</code></td>
-<td>integer</td>
-<td>降雨フラグ</td>
-<td>factor 変換</td>
-</tr>
-<tr class="even">
-<td><code>is_weekend</code></td>
-<td>logical</td>
-<td>休日フラグ</td>
-<td>factor 変換</td>
-</tr>
-<tr class="odd">
-<td><code>month</code></td>
-<td>integer</td>
-<td>月</td>
-<td>factor 変換</td>
+<td>Genre</td>
+<td>factor</td>
+<td>プレイしているゲームのジャンル</td>
+<td>カテゴリ変数（ダミー変数化）</td>
 </tr>
 </tbody>
 </table>
-</div>
-</figure>
-</div>
 </section>
 <section id="分析パイプライン" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="分析パイプライン"><span class="header-section-number">3.5</span> 分析パイプライン</h2>
+<p>本研究におけるデータ処理からモデル評価までの全体像を以下に示す。追加パッケージ tidyverse に含まれる dplyr を前処理に活用する。</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-pipeline" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -475,143 +349,33 @@ James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, と Jonathan Ta
 <div aria-describedby="fig-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
 <pre class="mermaid mermaid-js" data-label="fig-pipeline">flowchart LR
-    A[データ読込] --&gt; B[前処理&lt;br&gt;factor変換]
-    B --&gt; C[訓練/テスト分割&lt;br&gt;80:20]
-    C --&gt; D[モデル学習]
-    D --&gt; E1[線形回帰&lt;br&gt;lm]
-    D --&gt; E2[回帰木&lt;br&gt;rpart]
-    E1 --&gt; F[精度評価&lt;br&gt;MAE/RMSE/R²]
-    E2 --&gt; F
-    F --&gt; G[変数重要度&lt;br&gt;分析]
+    A[データ読込] --&gt; B[型変換・NA除去]
+    B --&gt; C[下位25%値の算出&lt;br&gt;リスクフラグ生成]
+    C --&gt; D[モデル構築&lt;br&gt;glm関数]
+    D --&gt; E[結果の出力&lt;br&gt;summary / 係数]
+    E --&gt; F[評価と考察&lt;br&gt;オッズ比の解釈]
 </pre>
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;3.2: 分析パイプライン
+図&nbsp;3.2: 研究の分析パイプライン
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="精度評価指標" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="精度評価指標"><span class="header-section-number">3.6</span> 精度評価指標</h2>
-<p>モデルの予測精度を評価するため、以下の3指標を使用する。</p>
-<section id="平均絶対誤差mae" class="level3">
-<h3 class="anchored" data-anchor-id="平均絶対誤差mae">平均絶対誤差（MAE）</h3>
-<p><span id="eq-mae"><span class="math display">\[
-\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
-\tag{3.4}\]</span></span></p>
+<section id="モデルの評価指標" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="モデルの評価指標"><span class="header-section-number">3.6</span> モデルの評価指標</h2>
+<p>構築したロジスティック回帰モデルの適合度および各変数の有意性を評価するため、以下の指標を使用する。</p>
+<section id="p値有意確率" class="level3">
+<h3 class="anchored" data-anchor-id="p値有意確率">p値（有意確率）</h3>
+<p>各説明変数の回帰係数 <span class="math inline">\(\beta_j\)</span> が「0である（無関係である）」という帰無仮説を検定する。本研究では有意水準を 5%（<span class="math inline">\(p &lt; 0.05\)</span>） と設定し、統計的に有意なリスク要因を特定する。</p>
 </section>
-<section id="二乗平均平方根誤差rmse" class="level3">
-<h3 class="anchored" data-anchor-id="二乗平均平方根誤差rmse">二乗平均平方根誤差（RMSE）</h3>
-<p><span id="eq-rmse"><span class="math display">\[
-\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
-\tag{3.5}\]</span></span></p>
-</section>
-<section id="決定係数r²" class="level3">
-<h3 class="anchored" data-anchor-id="決定係数r²">決定係数（R²）</h3>
-<p><span id="eq-r2"><span class="math display">\[
-R^2 = 1 - \frac{\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}{\sum_{i=1}^{n}(y_i - \bar{y})^2}
-\tag{3.6}\]</span></span></p>
-<p>ここで <span class="math inline">\(y_i\)</span> は実測値、<span class="math inline">\(\hat{y}_i\)</span> は予測値、<span class="math inline">\(\bar{y}\)</span> は実測値の平均、<span class="math inline">\(n\)</span> はサンプル数である。</p>
-<p><a href="#eq-mae" class="quarto-xref">式&nbsp;<span>3.4</span></a> は外れ値に頑健な指標、<a href="#eq-rmse" class="quarto-xref">式&nbsp;<span>3.5</span></a> は大きな誤差をより重く評価する指標、<a href="#eq-r2" class="quarto-xref">式&nbsp;<span>3.6</span></a> はモデルの説明力を0〜1で表す指標である。</p>
-</section>
-</section>
-<section id="追加パッケージの利用発展" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="追加パッケージの利用発展"><span class="header-section-number">3.7</span> 追加パッケージの利用（発展）</h2>
-<p>本テンプレートはR の基本パッケージのみで動作するが、研究の目的に応じてより高度なパッケージを導入できる。</p>
-<div class="callout callout-style-default callout-important callout-titled" title="パッケージの追加手順">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">重要</span>パッケージの追加手順
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li><strong>R コンソール</strong>で <code>install.packages("パッケージ名")</code> を実行（初回のみ）</li>
-<li><code>.qmd</code> ファイルのコードブロック内で <code>library(パッケージ名)</code> を記述</li>
-<li><code>quarto render</code> で正常にビルドできることを確認</li>
-</ol>
-</div>
-</div>
-<section id="代表的な追加パッケージ" class="level3">
-<h3 class="anchored" data-anchor-id="代表的な追加パッケージ">代表的な追加パッケージ</h3>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">パッケージ</th>
-<th style="text-align: left;">用途</th>
-<th style="text-align: left;">インストール</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>tidyverse</code></td>
-<td style="text-align: left;">データ操作・可視化の統合環境</td>
-<td style="text-align: left;"><code>install.packages("tidyverse")</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>randomForest</code></td>
-<td style="text-align: left;">ランダムフォレスト</td>
-<td style="text-align: left;"><code>install.packages("randomForest")</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>lightgbm</code></td>
-<td style="text-align: left;">勾配ブースティング（LightGBM）</td>
-<td style="text-align: left;"><code>install.packages("lightgbm")</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>plotly</code></td>
-<td style="text-align: left;">インタラクティブなグラフ</td>
-<td style="text-align: left;"><code>install.packages("plotly")</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="使用例lightgbm-で回帰木を置き換える場合" class="level3">
-<h3 class="anchored" data-anchor-id="使用例lightgbm-で回帰木を置き換える場合">使用例：LightGBM で回帰木を置き換える場合</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. インストール（R コンソールで一度だけ実行）</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"lightgbm"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. .qmd ファイル内で読み込んで使用</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lightgbm)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>dtrain <span class="ot">&lt;-</span> <span class="fu">lgb.Dataset</span>(</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data  =</span> <span class="fu">as.matrix</span>(train_data[, <span class="sc">-</span><span class="fu">which</span>(<span class="fu">names</span>(train_data) <span class="sc">==</span> <span class="st">"count"</span>)]),</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> train_data<span class="sc">$</span>count</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">objective =</span> <span class="st">"regression"</span>, <span class="at">metric =</span> <span class="st">"rmse"</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">num_leaves =</span> <span class="dv">31</span>, <span class="at">learning_rate =</span> <span class="fl">0.1</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>lgbm_fit <span class="ot">&lt;-</span> <span class="fu">lgb.train</span>(params, dtrain, <span class="at">nrounds =</span> <span class="dv">500</span>)</span></code></pre></div><button title="コピー" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="callout callout-style-default callout-warning callout-titled" title="注意">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">警告</span>注意
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li>追加パッケージを使う場合、<code>quarto render</code> 時にそのパッケージがインストール済みである必要がある</li>
-<li>エラーが出たら、まず <code>install.packages("パッケージ名")</code> を実行してから再度 <code>quarto render</code> する</li>
-<li>GitHub Pages にデプロイする際、<strong>ビルドは自分の PC 上で行われる</strong>ため、自分の PC にパッケージがあれば問題ない</li>
-</ul>
-</div>
-</div>
-
+<section id="赤池情報量基準aic" class="level3">
+<h3 class="anchored" data-anchor-id="赤池情報量基準aic">赤池情報量基準（AIC）</h3>
+<p>モデルの適合度の良さと複雑さ（変数推定量）のバランスを測定する指標であり、以下の式で定義される。<span class="math display">\[\text{AIC} = -2\ln(L) + 2k\]</span> {#eq-aic}</p>
+<p>ここで <span class="math inline">\(L\)</span> は最大尤度、<span class="math inline">\(k\)</span> は自由パラメータ数（定数項を含む係数の数）である。AICの値が小さいモデルほど、過学習を抑えた優れたモデルであると評価される。</p>
 
 
 </section>

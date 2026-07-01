@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -75,6 +110,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "サーチ"
   }
 }</script>
+<meta name="mermaid-theme" content="default">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
@@ -165,13 +204,13 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#データの出典" id="toc-データの出典" class="nav-link active" data-scroll-target="#データの出典"><span class="header-section-number">2.1</span> データの出典</a></li>
   <li><a href="#データの準備" id="toc-データの準備" class="nav-link" data-scroll-target="#データの準備"><span class="header-section-number">2.2</span> データの準備</a></li>
-  <li><a href="#データ概要" id="toc-データ概要" class="nav-link" data-scroll-target="#データ概要"><span class="header-section-number">2.3</span> データ概要</a></li>
+  <li><a href="#データセット概要" id="toc-データセット概要" class="nav-link" data-scroll-target="#データセット概要"><span class="header-section-number">2.3</span> データセット概要</a></li>
   <li><a href="#変数一覧" id="toc-変数一覧" class="nav-link" data-scroll-target="#変数一覧"><span class="header-section-number">2.4</span> 変数一覧</a></li>
   <li><a href="#基本統計量" id="toc-基本統計量" class="nav-link" data-scroll-target="#基本統計量"><span class="header-section-number">2.5</span> 基本統計量</a></li>
-  <li><a href="#運営期間の分布" id="toc-運営期間の分布" class="nav-link" data-scroll-target="#運営期間の分布"><span class="header-section-number">2.6</span> 運営期間の分布</a></li>
-  <li><a href="#ジャンル別運営期間" id="toc-ジャンル別運営期間" class="nav-link" data-scroll-target="#ジャンル別運営期間"><span class="header-section-number">2.7</span> ジャンル別運営期間</a></li>
-  <li><a href="#企業別ゲーム本数" id="toc-企業別ゲーム本数" class="nav-link" data-scroll-target="#企業別ゲーム本数"><span class="header-section-number">2.8</span> 企業別ゲーム本数</a></li>
-  <li><a href="#ジャンル別割合" id="toc-ジャンル別割合" class="nav-link" data-scroll-target="#ジャンル別割合"><span class="header-section-number">2.9</span> ジャンル別割合</a></li>
+  <li><a href="#データの可視化累計課金額の分布" id="toc-データの可視化累計課金額の分布" class="nav-link" data-scroll-target="#データの可視化累計課金額の分布"><span class="header-section-number">2.6</span> データの可視化：累計課金額の分布</a></li>
+  <li><a href="#プレイ頻度と熱中度スコアの関係" id="toc-プレイ頻度と熱中度スコアの関係" class="nav-link" data-scroll-target="#プレイ頻度と熱中度スコアの関係"><span class="header-section-number">2.7</span> プレイ頻度と熱中度スコアの関係</a></li>
+  <li><a href="#ジャンル別デバイス別の行動パターン" id="toc-ジャンル別デバイス別の行動パターン" class="nav-link" data-scroll-target="#ジャンル別デバイス別の行動パターン"><span class="header-section-number">2.8</span> ジャンル別・デバイス別の行動パターン</a></li>
+  <li><a href="#前処理パイプライン" id="toc-前処理パイプライン" class="nav-link" data-scroll-target="#前処理パイプライン"><span class="header-section-number">2.9</span> 前処理パイプライン</a></li>
   </ul>
 </nav>
     </div>
@@ -197,29 +236,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-tip callout-titled" title="書き方ガイド：データ">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">ヒント</span>書き方ガイド：データ
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>本章では、分析に使用するスマホゲームデータの概要、基本統計量、および可視化を行う。<br>
-サービス終了したスマホゲームの特徴を把握するため、企業・ジャンル・課金方式・運営期間などの観点から分析を実施する。</p>
-</div>
-</div>
 <section id="データの出典" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="データの出典"><span class="header-section-number">2.1</span> データの出典</h2>
-<div id="tbl-data-source" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-source-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-表&nbsp;2.1: データの出典
-</figcaption>
-<div aria-describedby="tbl-data-source-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
+<caption>データの出典</caption>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>項目</th>
@@ -229,45 +253,61 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>利用データ</td>
-<td>サービス終了したスマホゲーム一覧データ</td>
+<td>Mobile Game In-App Purchases Dataset 2025</td>
 </tr>
 <tr class="even">
-<td>内容</td>
-<td>ゲームタイトル、企業、ジャンル、課金方式、リリース日、終了日</td>
+<td>取得元</td>
+<td>Kaggle（Pratyush Puri 氏公開データセット）</td>
 </tr>
 <tr class="odd">
-<td>対象地域</td>
-<td>日本国内</td>
+<td>取得日</td>
+<td>2026年7月</td>
 </tr>
 <tr class="even">
-<td>対象期間</td>
-<td>2014年〜2020年</td>
-</tr>
-<tr class="odd">
-<td>前処理スクリプト</td>
-<td><code>src/generate_data.R</code></td>
+<td>データファイルパス</td>
+<td><code>C:\Users\js201\OneDrive\ドキュメント\2026春\ゼミ2\データセット\mobile_game_inapp_purchases.csv</code></td>
 </tr>
 </tbody>
 </table>
-</div>
-</figure>
-</div>
 </section>
 <section id="データの準備" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="データの準備"><span class="header-section-number">2.2</span> データの準備</h2>
-<hr>
+<div class="cell">
+<details class="code-fold">
+<summary>データ読み込みと型変換・クリーニング</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows環境の絶対パスを指定</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data_path <span class="ot">&lt;-</span> <span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">js201</span><span class="sc">\\</span><span class="st">OneDrive</span><span class="sc">\\</span><span class="st">ドキュメント</span><span class="sc">\\</span><span class="st">2026春</span><span class="sc">\\</span><span class="st">ゼミ2</span><span class="sc">\\</span><span class="st">データセット</span><span class="sc">\\</span><span class="st">mobile_game_inapp_purchases.csv"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># データの読み込み</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>game_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(data_path, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 実際の列名に合わせて数値型へ変換と欠損値（NA）の除去</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>game_data<span class="sc">$</span>Age <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(game_data<span class="sc">$</span>Age)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>game_data<span class="sc">$</span>SessionCount <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(game_data<span class="sc">$</span>SessionCount)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>game_data<span class="sc">$</span>InAppPurchaseAmount <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(game_data<span class="sc">$</span>InAppPurchaseAmount)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 必須変数のNAを完全に除去</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>game_data <span class="ot">&lt;-</span> game_data[<span class="sc">!</span><span class="fu">is.na</span>(game_data<span class="sc">$</span>SessionCount) <span class="sc">&amp;</span> </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                       <span class="sc">!</span><span class="fu">is.na</span>(game_data<span class="sc">$</span>InAppPurchaseAmount) <span class="sc">&amp;</span> </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                       <span class="sc">!</span><span class="fu">is.na</span>(game_data<span class="sc">$</span>Age), ]</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 文字列型の変数を因子（factor）型に変換</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>game_data<span class="sc">$</span>Country <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(game_data<span class="sc">$</span>Country)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>game_data<span class="sc">$</span>Device <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(game_data<span class="sc">$</span>Device)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>game_data<span class="sc">$</span>GameGenre <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(game_data<span class="sc">$</span>GameGenre)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>game_data<span class="sc">$</span>SpendingSegment <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(game_data<span class="sc">$</span>SpendingSegment)</span></code></pre></div><button title="コピー" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
 </section>
-<section id="データ概要" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="データ概要"><span class="header-section-number">2.3</span> データ概要</h2>
-<p>本研究では、サービス終了したスマホゲームのデータセットを使用する。<br>
-ゲームごとの企業、ジャンル、課金方式、運営期間などを用いて分析を行う。</p>
-<div id="tbl-data-overview" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-表&nbsp;2.2: データセット概要
-</figcaption>
-<div aria-describedby="tbl-data-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<section id="データセット概要" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="データセット概要"><span class="header-section-number">2.3</span> データセット概要</h2>
+<p>本研究では、Kaggleで公開されているモバイルゲームのユーザー行動およびアプリ内課金に関するデータセットを使用する。このデータには、ユーザーの人口統計学的属性、ゲームのプレイ傾向、および課金行動が記録されている。</p>
 <table class="caption-top table">
+<caption>データセットの概要</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 80%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>項目</th>
@@ -276,140 +316,160 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>分析対象</td>
-<td>サービス終了したスマホゲーム</td>
+<td>サンプル数</td>
+<td>3,024件（欠損値処理前）</td>
 </tr>
 <tr class="even">
-<td>レコード数</td>
-<td>966 件</td>
+<td>データの性質</td>
+<td>クロスセクションデータ（ユーザー単位）</td>
 </tr>
 <tr class="odd">
-<td>企業数</td>
-<td>650 社</td>
-</tr>
-<tr class="even">
-<td>ジャンル数</td>
-<td>8 種類</td>
-</tr>
-<tr class="odd">
-<td>主な説明変数</td>
-<td>企業、ジャンル、課金方式、プラットフォーム</td>
-</tr>
-<tr class="even">
-<td>目的変数</td>
-<td>運営期間（service_months）</td>
+<td>主な分析対象</td>
+<td>ユーザーの年齢、プレイ頻度、累計課金額、ゲームジャンル</td>
 </tr>
 </tbody>
 </table>
-</div>
-</figure>
-</div>
 </section>
 <section id="変数一覧" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="変数一覧"><span class="header-section-number">2.4</span> 変数一覧</h2>
-<div id="tbl-variables" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-variables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-表&nbsp;2.3: 変数一覧
-</figcaption>
-<div aria-describedby="tbl-variables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
+<caption>変数一覧</caption>
+<colgroup>
+<col style="width: 29%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 23%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>変数名</th>
 <th>型</th>
 <th>説明</th>
+<th>単位</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>title</code></td>
+<td>UserID</td>
 <td>character</td>
-<td>ゲームタイトル</td>
+<td>ユーザーの一意識別子</td>
+<td>-</td>
 </tr>
 <tr class="even">
-<td><code>company</code></td>
-<td>factor</td>
-<td>運営会社</td>
+<td>Age</td>
+<td>integer</td>
+<td>ユーザーの年齢</td>
+<td>歳</td>
 </tr>
 <tr class="odd">
-<td><code>platform</code></td>
-<td>factor</td>
-<td>対応OS</td>
+<td>Gender</td>
+<td>character</td>
+<td>ユーザーの性別</td>
+<td>-</td>
 </tr>
 <tr class="even">
-<td><code>genre</code></td>
+<td>Country</td>
 <td>factor</td>
-<td>ゲームジャンル</td>
+<td>ユーザーの居住国</td>
+<td>-</td>
 </tr>
 <tr class="odd">
-<td><code>release_date</code></td>
-<td>Date</td>
-<td>リリース日</td>
+<td>Device</td>
+<td>factor</td>
+<td>使用デバイス（iOS / Android）</td>
+<td>-</td>
 </tr>
 <tr class="even">
-<td><code>end_date</code></td>
-<td>Date</td>
-<td>サービス終了日</td>
+<td>Genre</td>
+<td>factor</td>
+<td>プレイしているゲームのジャンル</td>
+<td>-</td>
 </tr>
 <tr class="odd">
-<td><code>billing_type</code></td>
-<td>factor</td>
-<td>課金方式</td>
+<td>SessionsPerWeek</td>
+<td>integer</td>
+<td>1週間あたりの平均プレイセッション数</td>
+<td>回</td>
 </tr>
 <tr class="even">
-<td><code>service_days</code></td>
+<td>AvgSessionDuration</td>
 <td>numeric</td>
-<td>運営日数</td>
+<td>1セッションあたりの平均プレイ時間</td>
+<td>分</td>
 </tr>
 <tr class="odd">
-<td><code>service_months</code></td>
+<td>TotalSpend</td>
 <td>numeric</td>
-<td>運営月数</td>
+<td>これまでの累計課金額</td>
+<td>ドル</td>
+</tr>
+<tr class="even">
+<td>InAppPurchasesCount</td>
+<td>integer</td>
+<td>アプリ内課金を行った総回数</td>
+<td>回</td>
+</tr>
+<tr class="odd">
+<td>SpendingSegment</td>
+<td>factor</td>
+<td>課金規模セグメント（Whale / Dolphin / Minnow など）</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>EngagementScore</td>
+<td>numeric</td>
+<td>ユーザーの熱中度スコア（0～100）</td>
+<td>点</td>
 </tr>
 </tbody>
 </table>
-</div>
-</figure>
-</div>
 </section>
 <section id="基本統計量" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="基本統計量"><span class="header-section-number">2.5</span> 基本統計量</h2>
+<p>ユーザーの行動傾向を俯瞰するため、主要な連続変数（年齢、週あたりセッション数、累計課金額、熱中度スコア）の基本統計量を算出する。</p>
 <div class="cell">
 <div id="tbl-summary-stats" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summary-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-表&nbsp;2.4: 運営期間の基本統計量
+表&nbsp;2.1: 主要変数の基本統計量
 </figcaption>
 <div aria-describedby="tbl-summary-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;">指標</th>
-<th style="text-align: right;">service_months</th>
+<th style="text-align: left;">変数</th>
+<th style="text-align: right;">平均</th>
+<th style="text-align: right;">標準偏差</th>
+<th style="text-align: right;">最小</th>
+<th style="text-align: right;">中央値</th>
+<th style="text-align: right;">最大</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">平均</td>
-<td style="text-align: right;">20.6</td>
+<td style="text-align: left;">Age</td>
+<td style="text-align: right;">33.5</td>
+<td style="text-align: right;">12.0</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">54.0</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">標準偏差</td>
-<td style="text-align: right;">18.3</td>
+<td style="text-align: left;">SessionCount</td>
+<td style="text-align: right;">10.1</td>
+<td style="text-align: right;">3.1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">22.0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">最小値</td>
-<td style="text-align: right;">0.9</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">中央値</td>
-<td style="text-align: right;">13.7</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">最大値</td>
-<td style="text-align: right;">114.4</td>
+<td style="text-align: left;">InAppPurchaseAmount</td>
+<td style="text-align: right;">103.8</td>
+<td style="text-align: right;">458.2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">4964.4</td>
 </tr>
 </tbody>
 </table>
@@ -418,101 +478,100 @@ ul.task-list li input[type="checkbox"] {
 </figure>
 </div>
 </div>
-<hr>
 </section>
-<section id="運営期間の分布" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="運営期間の分布"><span class="header-section-number">2.6</span> 運営期間の分布</h2>
-<p><a href="#fig-service-hist" class="quarto-xref">図&nbsp;<span>2.1</span></a> はスマホゲームの運営期間分布を示している。<br>
-比較的短期間でサービス終了するゲームが多い一方、長期間運営されるゲームも一部存在する。</p>
+<section id="データの可視化累計課金額の分布" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="データの可視化累計課金額の分布"><span class="header-section-number">2.6</span> データの可視化：累計課金額の分布</h2>
+<p><a href="#fig-spend-hist" class="quarto-xref">図&nbsp;<span>2.1</span></a> は、ユーザー全体の累計課金額（TotalSpend）の分布を示したものである。多くのユーザーが低額課金帯に位置する一方で、一部のユーザーが非常に高い金額を課金しているロングテールな分布の特徴が確認できる。</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-service-hist" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-spend-hist" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-service-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="02_データ_files/figure-html/fig-service-hist-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="図&nbsp;2.1: 運営期間の分布"><img src="02_データ_files/figure-html/fig-service-hist-1.png" class="img-fluid figure-img" width="672"></a>
+<div aria-describedby="fig-spend-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="02_データ_files/figure-html/fig-spend-hist-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="図&nbsp;2.1: 課金総額の分布（ヒストグラム）"><img src="02_データ_files/figure-html/fig-spend-hist-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-service-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.1: 運営期間の分布
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<hr>
-</section>
-<section id="ジャンル別運営期間" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="ジャンル別運営期間"><span class="header-section-number">2.7</span> ジャンル別運営期間</h2>
-<p><a href="#fig-genre-box" class="quarto-xref">図&nbsp;<span>2.2</span></a> はジャンル別の運営期間を示している。<br>
-ジャンルによって運営期間のばらつきに違いが見られる。</p>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.2.1     ✔ readr     2.2.0
-✔ forcats   1.0.1     ✔ stringr   1.6.0
-✔ ggplot2   4.0.3     ✔ tibble    3.3.1
-✔ lubridate 1.9.5     ✔ tidyr     1.3.2
-✔ purrr     1.2.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    Action  Adventure      Other     Puzzle        RPG    Shooter Simulation 
-        56         39         23         33        752         15         48 </code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-genre-box" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-genre-box-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="02_データ_files/figure-html/fig-genre-box-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="図&nbsp;2.2: ジャンル別運営期間"><img src="02_データ_files/figure-html/fig-genre-box-1.png" class="img-fluid figure-img" width="672"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-genre-box-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.2: ジャンル別運営期間
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<hr>
-</section>
-<section id="企業別ゲーム本数" class="level2" data-number="2.8">
-<h2 data-number="2.8" class="anchored" data-anchor-id="企業別ゲーム本数"><span class="header-section-number">2.8</span> 企業別ゲーム本数</h2>
-<p><a href="#fig-company-bar" class="quarto-xref">図&nbsp;<span>2.3</span></a> は企業ごとのサービス終了ゲーム本数を示している。<br>
-一部企業ではサービス終了タイトル数が多い傾向が確認できる。</p>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-company-bar" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-company-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="02_データ_files/figure-html/fig-company-bar-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="図&nbsp;2.3: 企業別サービス終了ゲーム数"><img src="02_データ_files/figure-html/fig-company-bar-1.png" class="img-fluid figure-img" width="672"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-company-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.3: 企業別サービス終了ゲーム数
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-spend-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;2.1: 課金総額の分布（ヒストグラム）
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="ジャンル別割合" class="level2" data-number="2.9">
-<h2 data-number="2.9" class="anchored" data-anchor-id="ジャンル別割合"><span class="header-section-number">2.9</span> ジャンル別割合</h2>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">ジャンル別件数</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<section id="プレイ頻度と熱中度スコアの関係" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="プレイ頻度と熱中度スコアの関係"><span class="header-section-number">2.7</span> プレイ頻度と熱中度スコアの関係</h2>
+<p><a href="#fig-scatter-engagement" class="quarto-xref">図&nbsp;<span>2.2</span></a> は、週あたりのプレイ回数（SessionsPerWeek）と熱中度スコア（EngagementScore）の関係を示した散布図である。プレイ頻度が高いユーザーほど、ゲームへの熱中度スコアも高くなる強い正の相関が視覚的に認められる。</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-genre-bar" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-scatter-engagement" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-genre-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="02_データ_files/figure-html/fig-genre-bar-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="図&nbsp;2.4: ジャンル別件数"><img src="02_データ_files/figure-html/fig-genre-bar-1.png" class="img-fluid figure-img" width="672"></a>
+<div aria-describedby="fig-scatter-engagement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="02_データ_files/figure-html/fig-scatter-engagement-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="図&nbsp;2.2: プレイ回数と課金総額の関係"><img src="02_データ_files/figure-html/fig-scatter-engagement-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-genre-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.4: ジャンル別件数
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scatter-engagement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;2.2: プレイ回数と課金総額の関係
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ジャンル別デバイス別の行動パターン" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="ジャンル別デバイス別の行動パターン"><span class="header-section-number">2.8</span> ジャンル別・デバイス別の行動パターン</h2>
+<section id="ジャンル別の平均課金額" class="level3">
+<h3 class="anchored" data-anchor-id="ジャンル別の平均課金額">ジャンル別の平均課金額</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-genre-spend" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-genre-spend-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="02_データ_files/figure-html/fig-genre-spend-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="図&nbsp;2.3: ジャンル別の平均課金総額"><img src="02_データ_files/figure-html/fig-genre-spend-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-genre-spend-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;2.3: ジャンル別の平均課金総額
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="デバイス別のプレイ頻度" class="level3">
+<h3 class="anchored" data-anchor-id="デバイス別のプレイ頻度">デバイス別のプレイ頻度</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-device-sessions" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-device-sessions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="02_データ_files/figure-html/fig-device-sessions-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="図&nbsp;2.4: デバイス別の平均プレイ回数"><img src="02_データ_files/figure-html/fig-device-sessions-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-device-sessions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;2.4: デバイス別の平均プレイ回数
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="前処理パイプライン" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="前処理パイプライン"><span class="header-section-number">2.9</span> 前処理パイプライン</h2>
+<p>本研究におけるモデル入力までのデータ前処理の流れを以下に示す。</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-preprocess" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-preprocess-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-preprocess">flowchart TD
+    A[Kaggleよりcsvデータを読み込み] --&gt; B[実際の列名に基づいて型変換・NA除去]
+    B --&gt; C[文字列型の変数を因子型へ変換]
+    C --&gt; D[プレイ回数と課金額の下位25%値を算出]
+    D --&gt; E[サ終リスクフラグ 0/1 の生成]
+    E --&gt; F[ロジスティック回帰モデルへ入力]
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-preprocess-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;2.5: データ前処理およびリスク定義パイプライン
 </figcaption>
 </figure>
 </div>
@@ -520,9 +579,6 @@ ul.task-list li input[type="checkbox"] {
 </div>
 
 
-</div>
-</div>
-</div>
 </section>
 
 </main> <!-- /main -->

@@ -23,26 +23,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -99,10 +80,39 @@ div.csl-indent {
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-sidebar floating slimcontent quarto-light">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -182,18 +192,15 @@ div.csl-indent {
     <h2 id="toc-title">目次</h2>
    
   <ul class="collapse">
-  <li><a href="#モデル学習" id="toc-モデル学習" class="nav-link active" data-scroll-target="#モデル学習"><span class="header-section-number">4.1</span> モデル学習</a></li>
-  <li><a href="#精度比較" id="toc-精度比較" class="nav-link" data-scroll-target="#精度比較"><span class="header-section-number">4.2</span> 精度比較</a></li>
-  <li><a href="#予測結果の可視化" id="toc-予測結果の可視化" class="nav-link" data-scroll-target="#予測結果の可視化"><span class="header-section-number">4.3</span> 予測結果の可視化</a></li>
-  <li><a href="#誤差分析" id="toc-誤差分析" class="nav-link" data-scroll-target="#誤差分析"><span class="header-section-number">4.4</span> 誤差分析</a></li>
-  <li><a href="#変数重要度" id="toc-変数重要度" class="nav-link" data-scroll-target="#変数重要度"><span class="header-section-number">4.5</span> 変数重要度</a></li>
-  <li><a href="#曜日別精度" id="toc-曜日別精度" class="nav-link" data-scroll-target="#曜日別精度"><span class="header-section-number">4.6</span> 曜日別精度</a></li>
-  <li><a href="#考察" id="toc-考察" class="nav-link" data-scroll-target="#考察"><span class="header-section-number">4.7</span> 考察</a></li>
+  <li><a href="#モデル構築とサ終リスクの生成" id="toc-モデル構築とサ終リスクの生成" class="nav-link active" data-scroll-target="#モデル構築とサ終リスクの生成"><span class="header-section-number">4.1</span> モデル構築とサ終リスクの生成</a></li>
+  <li><a href="#分析結果オッズ比と有意性" id="toc-分析結果オッズ比と有意性" class="nav-link" data-scroll-target="#分析結果オッズ比と有意性"><span class="header-section-number">4.2</span> 分析結果（オッズ比と有意性）</a></li>
+  <li><a href="#要因の可視化" id="toc-要因の可視化" class="nav-link" data-scroll-target="#要因の可視化"><span class="header-section-number">4.3</span> 要因の可視化</a></li>
+  <li><a href="#考察" id="toc-考察" class="nav-link" data-scroll-target="#考察"><span class="header-section-number">4.4</span> 考察</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -214,68 +221,307 @@ div.csl-indent {
 </header>
 
 
-<div class="callout callout-style-default callout-tip callout-titled" title="書き方ガイド：結果と考察">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">ヒント</span>書き方ガイド：結果と考察
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>何を書くか：</strong> モデルの学習結果・精度評価・分析結果を客観的に示し、その意味を考察する章です。報告書の中核となる最も重要な章です。</p>
-<p><strong>書き方のコツ：</strong></p>
-<ul>
-<li><strong>結果</strong> と <strong>考察</strong> を分けて書きます。結果は客観的事実、考察は解釈と意味づけです</li>
-<li>精度は表で比較し、どの手法が優れているかを明確にします</li>
-<li>グラフは複数の観点から作成します（時系列、誤差分布、変数重要度など）</li>
-<li>考察では「なぜそうなったか」の仮説を示し、先行研究との関連を述べます</li>
-</ul>
-<p><strong>Quartoの機能：</strong></p>
-<ul>
-<li>R の基本グラフ関数（<code>plot</code>, <code>barplot</code>, <code>hist</code>）で可視化を作成できます</li>
-<li><code>::: {.panel-tabset}</code> でタブ切替パネルを使い、複数の図を整理できます</li>
-<li><code>knitr::kable()</code> で R の結果をきれいな表として出力できます</li>
-</ul>
-</div>
-</div>
-<section id="モデル学習" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="モデル学習"><span class="header-section-number">4.1</span> モデル学習</h2>
-<p>第2章と同一のデータを読み込み、訓練データ（80%）とテストデータ（20%）に分割した。線形回帰（<code>lm</code>）と回帰木（<code>rpart</code>）の2モデルを学習させた。</p>
+<section id="モデル構築とサ終リスクの生成" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="モデル構築とサ終リスクの生成"><span class="header-section-number">4.1</span> モデル構築とサ終リスクの生成</h2>
+<p>第2章でクリーニングしたデータセットを用い、サービス終了（サ終）リスクの要因分析を行う。まず、データ内のプレイ頻度（<code>SessionCount</code>）と課金総額（<code>InAppPurchaseAmount</code>）のそれぞれにおいて下位25%点（第1四分位数）をR内で自動算出し、双方の条件を満たすユーザーを「サ終リスク群（<code>risk_flag = 1</code>）」、それ以外を「健全群（<code>risk_flag = 0</code>）」と定義した。</p>
+<p>その後、この <code>risk_flag</code> を目的変数とし、ユーザー属性（年齢、居住国、使用デバイス、ゲームジャンル）を説明変数としたロジスティック回帰モデル（一般化線形モデル：<code>glm</code>）を構築した。</p>
 </section>
-<section id="精度比較" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="精度比較"><span class="header-section-number">4.2</span> 精度比較</h2>
-<p><a href="#tbl-accuracy" class="quarto-xref">表&nbsp;<span>4.1</span></a> に各モデルのテストデータに対する精度評価結果を示す。</p>
+<section id="分析結果オッズ比と有意性" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="分析結果オッズ比と有意性"><span class="header-section-number">4.2</span> 分析結果（オッズ比と有意性）</h2>
+<p>ロジスティック回帰分析の結果から得られた回帰係数を指数変換（<span class="math inline">\(\exp(\beta)\)</span>）し、各変数がサ終リスクに与えるオッズ比（Odds Ratio）を算出した。結果を <a href="#tbl-logit-results" class="quarto-xref">表&nbsp;<span>4.1</span></a> に示す。</p>
 <div class="cell">
-<div id="tbl-accuracy" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-logit-results" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-表&nbsp;4.1: モデル精度の比較
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-logit-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+表&nbsp;4.1: ロジスティック回帰分析の推定結果とオッズ比
 </figcaption>
-<div aria-describedby="tbl-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="tbl-logit-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;">モデル</th>
-<th style="text-align: right;">MAE</th>
-<th style="text-align: right;">RMSE</th>
-<th style="text-align: right;">R²</th>
+<th style="text-align: left;">変数</th>
+<th style="text-align: right;">回帰係数</th>
+<th style="text-align: right;">オッズ比</th>
+<th style="text-align: right;">p値</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">線形回帰</td>
-<td style="text-align: right;">39.59</td>
-<td style="text-align: right;">48.94</td>
-<td style="text-align: right;">0.19</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-2.137</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">0.0148</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">回帰木（rpart）</td>
-<td style="text-align: right;">18.46</td>
-<td style="text-align: right;">23.25</td>
+<td style="text-align: left;">Age</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.9419</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountryAfghanistan</td>
+<td style="text-align: right;">0.210</td>
+<td style="text-align: right;">1.23</td>
+<td style="text-align: right;">0.7432</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CountryAustralia</td>
+<td style="text-align: right;">0.101</td>
+<td style="text-align: right;">1.11</td>
+<td style="text-align: right;">0.8746</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountryBangladesh</td>
+<td style="text-align: right;">-0.016</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">0.9810</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CountryBrazil</td>
+<td style="text-align: right;">-0.139</td>
+<td style="text-align: right;">0.87</td>
+<td style="text-align: right;">0.8359</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountryCanada</td>
+<td style="text-align: right;">-0.503</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;">0.4919</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CountryChina</td>
+<td style="text-align: right;">0.637</td>
+<td style="text-align: right;">1.89</td>
+<td style="text-align: right;">0.2943</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountryDenmark</td>
+<td style="text-align: right;">0.255</td>
+<td style="text-align: right;">1.29</td>
+<td style="text-align: right;">0.6849</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CountryEgypt</td>
+<td style="text-align: right;">0.625</td>
+<td style="text-align: right;">1.87</td>
+<td style="text-align: right;">0.3036</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountryFrance</td>
+<td style="text-align: right;">0.548</td>
+<td style="text-align: right;">1.73</td>
+<td style="text-align: right;">0.3773</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CountryGermany</td>
+<td style="text-align: right;">0.481</td>
+<td style="text-align: right;">1.62</td>
+<td style="text-align: right;">0.4273</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountryIndia</td>
+<td style="text-align: right;">0.202</td>
+<td style="text-align: right;">1.22</td>
+<td style="text-align: right;">0.7235</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CountryIran</td>
+<td style="text-align: right;">0.225</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: right;">0.7206</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountryItaly</td>
+<td style="text-align: right;">-0.090</td>
+<td style="text-align: right;">0.91</td>
+<td style="text-align: right;">0.8909</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CountryJapan</td>
+<td style="text-align: right;">-0.068</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">0.9166</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountryMexico</td>
+<td style="text-align: right;">-0.620</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">0.3952</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CountryNetherlands</td>
+<td style="text-align: right;">-0.666</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.3616</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountryNorway</td>
+<td style="text-align: right;">-0.400</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.5644</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CountryRussia</td>
+<td style="text-align: right;">-0.469</td>
+<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">0.5214</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountrySaudi Arabia</td>
+<td style="text-align: right;">-0.759</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">0.2983</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CountrySouth Korea</td>
+<td style="text-align: right;">-0.183</td>
+<td style="text-align: right;">0.83</td>
+<td style="text-align: right;">0.7849</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountrySpain</td>
+<td style="text-align: right;">0.493</td>
+<td style="text-align: right;">1.64</td>
+<td style="text-align: right;">0.4274</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CountrySri Lanka</td>
+<td style="text-align: right;">0.507</td>
+<td style="text-align: right;">1.66</td>
+<td style="text-align: right;">0.4222</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountrySweden</td>
+<td style="text-align: right;">-0.367</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.5979</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CountrySwitzerland</td>
+<td style="text-align: right;">0.325</td>
+<td style="text-align: right;">1.38</td>
+<td style="text-align: right;">0.5951</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountryTurkey</td>
+<td style="text-align: right;">-0.402</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.5833</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CountryUK</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">1.06</td>
+<td style="text-align: right;">0.9279</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CountryUSA</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.9958</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DeviceAndroid</td>
+<td style="text-align: right;">-0.275</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">0.5715</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DeviceiOS</td>
+<td style="text-align: right;">-0.249</td>
+<td style="text-align: right;">0.78</td>
+<td style="text-align: right;">0.6120</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GameGenreAction RPG</td>
+<td style="text-align: right;">-0.036</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">0.9476</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GameGenreAdventure</td>
+<td style="text-align: right;">-0.023</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">0.9668</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GameGenreBattle Royale</td>
+<td style="text-align: right;">-0.163</td>
+<td style="text-align: right;">0.85</td>
+<td style="text-align: right;">0.7693</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GameGenreCard</td>
+<td style="text-align: right;">-0.814</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.1732</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GameGenreCasual</td>
+<td style="text-align: right;">-0.441</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.4325</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GameGenreFighting</td>
+<td style="text-align: right;">-0.195</td>
 <td style="text-align: right;">0.82</td>
+<td style="text-align: right;">0.7249</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GameGenreMMORPG</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">1.06</td>
+<td style="text-align: right;">0.9147</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GameGenreMOBA</td>
+<td style="text-align: right;">-0.700</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.2422</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GameGenrePuzzle</td>
+<td style="text-align: right;">-0.662</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.2585</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GameGenreRacing</td>
+<td style="text-align: right;">-0.279</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">0.6157</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GameGenreRole Playing</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: right;">1.06</td>
+<td style="text-align: right;">0.9190</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GameGenreSandbox</td>
+<td style="text-align: right;">0.094</td>
+<td style="text-align: right;">1.10</td>
+<td style="text-align: right;">0.8592</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GameGenreSimulation</td>
+<td style="text-align: right;">-0.026</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">0.9612</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GameGenreSports</td>
+<td style="text-align: right;">0.078</td>
+<td style="text-align: right;">1.08</td>
+<td style="text-align: right;">0.8834</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GameGenreStrategy</td>
+<td style="text-align: right;">-0.284</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">0.6100</td>
 </tr>
 </tbody>
 </table>
@@ -284,130 +530,61 @@ div.csl-indent {
 </figure>
 </div>
 </div>
-<p>回帰木は全ての指標で線形回帰を上回っており、非線形な利用パターンの捕捉に有効であることが示された。</p>
+<p>※出力された表の p値 が 0.05 未満の変数群が、統計的に有意にサ終リスクに影響を与えている項目である。</p>
 </section>
-<section id="予測結果の可視化" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="予測結果の可視化"><span class="header-section-number">4.3</span> 予測結果の可視化</h2>
-<p><a href="#fig-pred-timeseries" class="quarto-xref">図&nbsp;<span>4.1</span></a> にテストデータの先頭200件における実測値と予測値の比較を示す。</p>
+<section id="要因の可視化" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="要因の可視化"><span class="header-section-number">4.3</span> 要因の可視化</h2>
+<section id="オッズ比のプロット" class="level3">
+<h3 class="anchored" data-anchor-id="オッズ比のプロット">オッズ比のプロット</h3>
+<p><a href="#fig-odds-plot" class="quarto-xref">図&nbsp;<span>4.1</span></a> は、各説明変数のオッズ比をプロットしたものである。オッズ比が1を超える変数はリスクを高める要因（過疎・低課金を誘発しやすい）、1を下回る変数はリスクを抑える要因（定着・課金しやすい）であることを示している。</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-pred-timeseries" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-odds-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-pred-timeseries-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="04_結果と考察_files/figure-html/fig-pred-timeseries-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="図&nbsp;4.1: 実測値と予測値の比較（テストデータ先頭200件）"><img src="04_結果と考察_files/figure-html/fig-pred-timeseries-1.png" class="img-fluid figure-img" width="672"></a>
+<div aria-describedby="fig-odds-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="04_結果と考察_files/figure-html/fig-odds-plot-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="図&nbsp;4.1: 各属性におけるサ終リスクのオッズ比"><img src="04_結果と考察_files/figure-html/fig-odds-plot-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pred-timeseries-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;4.1: 実測値と予測値の比較（テストデータ先頭200件）
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-odds-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;4.1: 各属性におけるサ終リスクのオッズ比
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="誤差分析" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="誤差分析"><span class="header-section-number">4.4</span> 誤差分析</h2>
+<section id="モデルの適合度-aic" class="level3">
+<h3 class="anchored" data-anchor-id="モデルの適合度-aic">モデルの適合度 (AIC)</h3>
+<p>本モデルの全体的な適合度を示す赤池情報量基準（AIC）は以下の通りである。</p>
 <div class="cell">
-<div class="cell-output-display">
-<div id="fig-error-hist" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-error-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="04_結果と考察_files/figure-html/fig-error-hist-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="図&nbsp;4.2: 予測誤差の分布"><img src="04_結果と考察_files/figure-html/fig-error-hist-1.png" class="img-fluid figure-img" width="672"></a>
+<div class="cell-output cell-output-stdout">
+<pre><code>構築されたモデルの AIC: 1575.95 </code></pre>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-error-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;4.2: 予測誤差の分布
-</figcaption>
-</figure>
+<div class="cell-output cell-output-stdout">
+<pre><code>総サンプル数: 2835 名</code></pre>
 </div>
-</div>
-</div>
-<p><a href="#fig-error-hist" class="quarto-xref">図&nbsp;<span>4.2</span></a> より、回帰木の誤差分布は線形回帰と比べて中心（誤差ゼロ付近）に集中しており、予測のばらつきが小さいことが確認できる。</p>
-</section>
-<section id="変数重要度" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="変数重要度"><span class="header-section-number">4.5</span> 変数重要度</h2>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-importance" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-importance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="04_結果と考察_files/figure-html/fig-importance-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="図&nbsp;4.3: 回帰木の変数重要度"><img src="04_結果と考察_files/figure-html/fig-importance-1.png" class="img-fluid figure-img" width="672"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-importance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;4.3: 回帰木の変数重要度
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p><a href="#fig-importance" class="quarto-xref">図&nbsp;<span>4.3</span></a> より、<code>hour</code>（時間帯）と <code>temperature</code>（気温）が予測への寄与度が最も高い変数であることがわかる。</p>
-</section>
-<section id="曜日別精度" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="曜日別精度"><span class="header-section-number">4.6</span> 曜日別精度</h2>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">MAE</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">RMSE</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-wday-mae" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-wday-mae-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="04_結果と考察_files/figure-html/fig-wday-mae-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="図&nbsp;4.4: 曜日別 MAE（回帰木）"><img src="04_結果と考察_files/figure-html/fig-wday-mae-1.png" class="img-fluid figure-img" width="672"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wday-mae-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;4.4: 曜日別 MAE（回帰木）
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-wday-rmse" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-wday-rmse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="04_結果と考察_files/figure-html/fig-wday-rmse-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="図&nbsp;4.5: 曜日別 RMSE（回帰木）"><img src="04_結果と考察_files/figure-html/fig-wday-rmse-1.png" class="img-fluid figure-img" width="672"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wday-rmse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;4.5: 曜日別 RMSE（回帰木）
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>うち、サ終リスク群（1）に該当したユーザー数: 216 名</code></pre>
 </div>
 </div>
 </section>
-<section id="考察" class="level2 page-columns page-full" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="考察"><span class="header-section-number">4.7</span> 考察</h2>
-<p>本章の分析結果から、以下の考察が得られる。</p>
-<section id="モデル性能について" class="level3">
-<h3 class="anchored" data-anchor-id="モデル性能について">モデル性能について</h3>
-<p>回帰木は線形回帰と比較して全ての評価指標で優れた性能を示した（<a href="#tbl-accuracy" class="quarto-xref">表&nbsp;<span>4.1</span></a>）。これは、シェアサイクルの利用パターンが時間帯や気象条件と<strong>非線形な関係</strong>を持つためと考えられる。例えば、通勤時間帯（7-9時、17-19時）に利用数が集中するパターンは、線形モデルでは捉えにくい。</p>
 </section>
-<section id="影響要因について" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="影響要因について">影響要因について</h3>
-<p>変数重要度分析（<a href="#fig-importance" class="quarto-xref">図&nbsp;<span>4.3</span></a>）から、以下の知見が得られた。</p>
-<ol type="1">
-<li><strong>時間帯（hour）</strong> が最も重要な変数であり、シェアサイクルの利用は通勤・通学の移動パターンに強く依存している</li>
-<li><strong>気温（temperature）</strong> が2番目に重要であり、気象条件がシェアサイクルの利用判断に大きく影響する。先行研究 <span class="citation" data-cites="Eren2020">(<a href="#ref-Eren2020" role="doc-biblioref">Eren と Uz 2020年</a>)</span> の知見とも一致する</li>
-<li><strong>降雨（is_rain）</strong> は利用数を大きく減少させる要因であり、需要予測において重要な変数である</li>
-</ol>
-<div class="no-row-height column-margin column-container"><div id="ref-Eren2020" class="csl-entry" role="listitem">
-Eren, Emir, と Volkan Emre Uz. 2020年. <span>「A Review on Bike-Sharing: The Factors Affecting Bike-Sharing Demand」</span>. <em>Sustainable Cities and Society</em> 54: 101882. <a href="https://doi.org/10.1016/j.scs.2019.101882">https://doi.org/10.1016/j.scs.2019.101882</a>.
-</div></div></section>
-<section id="先行研究との比較" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="先行研究との比較">先行研究との比較</h3>
-<p><span class="citation" data-cites="Fanaee2014">Fanaee-T と Gama (<a href="#ref-Fanaee2014" role="doc-biblioref">2014年</a>)</span> が示したバイクシェアリングデータにおけるイベント検出の知見と同様に、気象条件と時間帯が利用パターンの主要な決定要因であることが確認された。また、<span class="citation" data-cites="Singhvi2015">Singhvi ほか (<a href="#ref-Singhvi2015" role="doc-biblioref">2015年</a>)</span> が報告した NYC Citi Bike の予測事例と比較しても、非線形手法の有効性は同様の傾向を示している。</p>
+<section id="考察" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="考察"><span class="header-section-number">4.4</span> 考察</h2>
+<p>本章の分析結果から、モバイルゲームのサービス終了を回避するためのユーザー行動について以下の考察が得られる。</p>
+<section id="年齢ageが与える影響" class="level3">
+<h3 class="anchored" data-anchor-id="年齢ageが与える影響">年齢（Age）が与える影響</h3>
+<p>年齢の回帰係数およびオッズ比を確認すると、年齢層によってサ終リスク（過疎×低課金状態）への陥りやすさに違いがあるかが判明する。一般的にモバイルゲーム市場では、若年層ほどプレイ頻度（アクティブ）は高いが購買力が低く、逆に高年齢層（ビジネスパーソン等）はプレイ時間は短いものの高い課金力を持つとされる。本モデルにおいて年齢のオッズ比が1未満であれば、「年齢が上がるほどサ終リスクを遠ざける優良顧客になりやすい」と解釈できる。</p>
+</section>
+<section id="デバイスdeviceによるプレイ環境の差" class="level3">
+<h3 class="anchored" data-anchor-id="デバイスdeviceによるプレイ環境の差">デバイス（Device）によるプレイ環境の差</h3>
+<p>使用デバイス（iOS vs Android）のオッズ比の差は、プラットフォームごとのユーザー体験や決済の手軽さがリテンションに影響を与えている可能性を示唆する。特定のデバイスでリスクが有意に高い場合、そのプラットフォームにおけるアプリの最適化不足や、クラッシュ頻度などのテクニカルな問題が過疎化を招いている仮説が立ち、運営上の改善ポイントとして挙げられる。</p>
+</section>
+<section id="ゲームジャンルgamegenreとビジネスモデルの脆弱性" class="level3">
+<h3 class="anchored" data-anchor-id="ゲームジャンルgamegenreとビジネスモデルの脆弱性">ゲームジャンル（GameGenre）とビジネスモデルの脆弱性</h3>
+<p>ゲームジャンルごとのオッズ比のバラつきは、本研究における最も重要な議論の核心である。 特定のジャンル（例えば、競争が激しく流行り廃りの激しいジャンルや、一部の重課金層に売上を依存しすぎているジャンル）においてオッズ比が有意に高い場合、そのジャンルは「一般ユーザーが定着しにくく、急速に過疎×低課金化しやすいビジネスモデル的な脆弱性」を抱えていることを意味する。</p>
+<p>ゲーム運営者は、自社タイトルのジャンルが持つリスク特性を事前に把握し、オッズ比が高い（リスクになりやすい）ターゲット層に対してピンポイントでリテンションイベントや、課金のハードルを下げる施策（初回限定安価パックの充実など）を講じることで、サービス終了という最悪のシナリオを回避する確率を高めることができると考えられる。</p>
 
 
-<div class="no-row-height column-margin column-container"><div id="ref-Fanaee2014" class="csl-entry" role="listitem">
-Fanaee-T, Hadi, と João Gama. 2014年. <span>「Event Labeling Combining Ensemble Detectors and Background Knowledge」</span>. <em>Progress in Artificial Intelligence</em> 2 (2–3): 113–27. <a href="https://doi.org/10.1007/s13748-013-0040-3">https://doi.org/10.1007/s13748-013-0040-3</a>.
-</div><div id="ref-Singhvi2015" class="csl-entry" role="listitem">
-Singhvi, Divya, Somya Singhvi, Peter I. Frazier, ほか. 2015年. <span>「Predicting Bike-Share Usage in Practice: <span>NYC</span> Citi Bike Case Study」</span>. <em>INFORMS Transportation Science and Logistics Society Workshop</em>.
-</div></div>
 </section>
 </section>
 

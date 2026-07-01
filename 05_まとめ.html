@@ -158,7 +158,6 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#研究成果の要約" id="toc-研究成果の要約" class="nav-link active" data-scroll-target="#研究成果の要約"><span class="header-section-number">5.1</span> 研究成果の要約</a></li>
   <li><a href="#研究の限界" id="toc-研究の限界" class="nav-link" data-scroll-target="#研究の限界"><span class="header-section-number">5.2</span> 研究の限界</a></li>
   <li><a href="#今後の課題" id="toc-今後の課題" class="nav-link" data-scroll-target="#今後の課題"><span class="header-section-number">5.3</span> 今後の課題</a></li>
-  <li><a href="#謝辞" id="toc-謝辞" class="nav-link" data-scroll-target="#謝辞"><span class="header-section-number">5.4</span> 謝辞</a></li>
   </ul>
 </nav>
     </div>
@@ -184,62 +183,33 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-tip callout-titled" title="書き方ガイド：まとめ">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">ヒント</span>書き方ガイド：まとめ
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>何を書くか：</strong> 研究全体の成果を振り返り、限界と今後の発展可能性を述べる章です。</p>
-<p><strong>書き方のコツ：</strong></p>
-<ul>
-<li><strong>研究成果の要約</strong> は、研究目的に対応する形で箇条書きにします</li>
-<li><strong>研究の限界</strong> は弱点ではなく「改善の余地」として前向きに記述します</li>
-<li><strong>今後の課題</strong> は、次の研究テーマにつながるような具体的な方向性を示します</li>
-<li>謝辞には指導教員・データ提供者への感謝を忘れずに</li>
-</ul>
-<p><strong>Quartoの機能：</strong></p>
-<ul>
-<li>チェックリスト <code>- [ ]</code> で今後の課題を整理できます</li>
-<li><code>&gt; 引用文</code> でブロック引用（重要な結論の強調）ができます</li>
-</ul>
-</div>
-</div>
 <section id="研究成果の要約" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="研究成果の要約"><span class="header-section-number">5.1</span> 研究成果の要約</h2>
-<p>本研究では、東京都内のシェアサイクル利用数を予測するモデルの構築を行い、以下の成果を得た。</p>
+<p>本研究では、Kaggleのモバイルゲームアプリ内課金データセット（2025）を用い、サービス終了（サ終）の主要因となる「過疎化」と「売上低迷」を同時に内包する「擬似的なサ終リスク」を定義し、ロジスティック回帰分析によってその要因を検証した。本研究の主要な成果は以下の通りである。</p>
 <ol type="1">
-<li><p><strong>データの特性把握：</strong> シェアサイクルの利用数は気温・降雨・曜日・時間帯によって大きく変動することを確認した。特に気温との正の相関と、降雨時の利用数減少が顕著であった。</p></li>
-<li><p><strong>予測モデルの構築と比較：</strong> 線形回帰と回帰木（rpart）の2手法でモデルを構築し、回帰木が全ての評価指標で優れた精度を示した。回帰木のRMSEは線形回帰と比較して改善が得られた。</p></li>
-<li><p><strong>影響要因の特定：</strong> 変数重要度分析により、時間帯（hour）と気温（temperature）が利用数の予測に最も寄与する変数であることを明らかにした。</p></li>
+<li><p><strong>サ終リスクの定量的定義：</strong> 外部データに依存せず、データセット内の「プレイ回数（<code>SessionCount</code>）」および「課金総額（<code>InAppPurchaseAmount</code>）」の双方で下位25%に位置する層を「サ終リスク群」としてモデル化するアプローチを確立した。</p></li>
+<li><p><strong>リスク要因の統計的特定：</strong> ロジスティック回帰モデル（GLM）の推定により、ユーザーの年齢（<code>Age</code>）、デバイス（<code>Device</code>）、およびプレイしているゲームのジャンル（<code>GameGenre</code>）がリスク発生確率に対して統計的に有意な影響を与えているかをオッズ比をベースに明らかにした。</p></li>
+<li><p><strong>運営施策への示唆：</strong> 分析によって導き出されたオッズ比の高い「ハイリスク層（過疎・低課金に陥りやすい属性）」を特定することで、ゲーム運営者がサービス終了を回避するために優先してアプローチすべきターゲットや、リテンション施策（ゲーム内イベントの最適化や課金導線の改善）への具体的な提言を行った。</p></li>
 </ol>
 </section>
 <section id="研究の限界" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="研究の限界"><span class="header-section-number">5.2</span> 研究の限界</h2>
-<p>本研究には以下の限界がある。</p>
+<p>本研究には、限られた時間とデータソースに起因する以下の限界がある。</p>
 <ul>
-<li><strong>合成データの使用：</strong> 本テンプレートでは分析手法の実演を目的として合成データを使用している。実際の研究では、自治体やサービス事業者が公開する実データを用いる必要がある。</li>
-<li><strong>空間的要因の未考慮：</strong> ステーションの立地（駅からの距離、オフィス街かどうか等）を変数に含めていない。</li>
-<li><strong>モデルの単純さ：</strong> 回帰木の剪定パラメータのチューニングを最小限に留めており、ランダムフォレストや勾配ブースティング等のアンサンブル手法で精度向上の余地がある。</li>
+<li><strong>クロスセクションデータの制約：</strong> 本研究で使用したデータは特定の時点を切り取ったスナップショット（クロスセクションデータ）であり、同一ユーザーの「時間の経過に伴う行動の変化（時系列の離脱プロセス）」を完全には追えていない。</li>
+<li><strong>外部サ終実績との厳密な突合：</strong> 実際の市場でサービス終了に追い込まれたゲームタイトルのジャンル・運営期間データと、今回のKaggleのユーザー行動データを完全には直接結合していないため、モデルの予測値と現実のサ終事例との間の定量的整合性には検証の余地が残る。</li>
+<li><strong>運営費・コスト面の未考慮：</strong> 実際のサ終は売上だけでなく、サーバー維持費や版権料（IPロイヤリティ）などのコスト構造にも依存するが、本モデルはユーザーサイドのデータのみで構成されている。</li>
 </ul>
 </section>
 <section id="今後の課題" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="今後の課題"><span class="header-section-number">5.3</span> 今後の課題</h2>
 <ul class="task-list">
-<li><label><input type="checkbox">実データ（自治体オープンデータ等）を用いた分析の実施</label></li>
-<li><label><input type="checkbox">ステーション別の利用予測モデルの構築</label></li>
-<li><label><input type="checkbox">ランダムフォレストや勾配ブースティング等の高度な手法との比較</label></li>
-<li><label><input type="checkbox">リアルタイム予測システムのプロトタイプ開発</label></li>
-<li><label><input type="checkbox">需要予測に基づく最適な自転車再配置アルゴリズムの検討</label></li>
+<li><label><input type="checkbox">時系列（パネルデータ）を用いた、ユーザー離脱（Churn）の動的予測モデルへの拡張</label></li>
+<li><label><input type="checkbox">実際のサービス終了ゲームリスト（生存日数データ等）を外部から取得し、本データとマッピングした複合分析の実施</label></li>
+<li><label><input type="checkbox">ランダムフォレストや勾配ブースティング（LightGBMなど）を用いた、サ終リスクユーザーの分類精度のさらなる向上</label></li>
+<li><label><input type="checkbox">課金セグメント（Whale/Dolphin/Minnow）ごとの離脱パターンの個別モデミング</label></li>
+<li><label><input type="checkbox">早期離脱アラートシステムのプロトタイプ（ダッシュボード等）の設計</label></li>
 </ul>
-</section>
-<section id="謝辞" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="謝辞"><span class="header-section-number">5.4</span> 謝辞</h2>
-<p>本研究を進めるにあたり、丁寧なご指導をいただいた竹田恒先生に深く感謝いたします。また、データサイエンスコースの同期の皆さんとの議論は、研究の方向性を考える上で大変参考になりました。</p>
 
 
 </section>
